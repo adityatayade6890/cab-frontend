@@ -26,7 +26,7 @@ const RideHistory = () => {
 
   useEffect(() => {
     fetchRides();
-  }, []);
+  }, [fetchRides]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });

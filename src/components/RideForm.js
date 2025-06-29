@@ -24,7 +24,7 @@ const RideForm = () => {
   const [fare, setFare] = useState(null);
   const [bill, setBill] = useState(null);
   const [rideId, setRideId] = useState(null);
-  const [billNumber, setBillNumber] = useState(null);
+  // const [billNumber, setBillNumber] = useState(null);
   const [calculatedDistance, setCalculatedDistance] = useState(0);
 
   const handleChange = (e) => {
@@ -90,7 +90,7 @@ const RideForm = () => {
       const res = await axios.post(`${BASE_URL}/api/rides`, payload);
 
       setFare(res.data.fare);
-      setBillNumber(res.data.billNumber);
+      // setBillNumber(res.data.billNumber);
       setRideId(res.data.rideId);
 
       setBill({
@@ -114,10 +114,10 @@ const RideForm = () => {
     }
   };
 
-  const previewBill = () => {
-    if (!rideId) return alert('No ride created yet');
-    window.open(`${BASE_URL}/api/rides/${rideId}/preview`, '_blank');
-  };
+  // const previewBill = () => {
+  //   if (!rideId) return alert('No ride created yet');
+  //   window.open(`${BASE_URL}/api/rides/${rideId}/preview`, '_blank');
+  // };
 
   // const sendEmail = async () => {
   //   if (!rideId) return alert('No ride created yet');
@@ -196,7 +196,7 @@ const RideForm = () => {
         </div>
       )} */}
 
-      <BillPreview bill={bill} />
+      {/* <BillPreview bill={bill} /> */}
     </form>
   );
 };
