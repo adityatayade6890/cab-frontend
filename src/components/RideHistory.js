@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import generateBillPDF from '../utils/generatePdf';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const RideHistory = () => {
   const [rides, setRides] = useState([]);

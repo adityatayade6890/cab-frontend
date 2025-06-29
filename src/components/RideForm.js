@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 // import BillPreview from './BillPreview';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const RideForm = () => {
   const [formData, setFormData] = useState({
