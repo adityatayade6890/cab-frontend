@@ -26,6 +26,7 @@ const RideHistory = () => {
 
   useEffect(() => {
     fetchRides();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFilterChange = (e) => {
@@ -110,9 +111,14 @@ const RideHistory = () => {
               className="btn btn-secondary w-100"
               onClick={() => {
                 setFilters({
-                  driver: '', pickup: '', drop: '', payment_mode: '', from_date: '', to_date: ''
+                  driver: '',
+                  pickup: '',
+                  drop: '',
+                  payment_mode: '',
+                  from_date: '',
+                  to_date: ''
                 });
-                fetchRides(); // Refresh list
+                fetchRides();
               }}
             >
               🔄 Reset

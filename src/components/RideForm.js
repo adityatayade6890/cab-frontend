@@ -91,21 +91,21 @@ const RideForm = () => {
 
       setFare(res.data.fare);
       // setBillNumber(res.data.billNumber);
-      setRideId(res.data.rideId);
+      // setRideId(res.data.rideId);
 
-      setBill({
-        customer_name: formData.name,
-        pickup_location: formData.pickup,
-        drop_location: formData.drop,
-        distance_km: distance,
-        night_charge: formData.nightCharge,
-        toll_charge: parseFloat(formData.tollCharge),
-        fare_total: res.data.fare,
-        payment_mode: formData.paymentMode,
-        driver_name: formData.driverName,
-        bill_number: res.data.billNumber,
-        created_at: new Date().toISOString(),
-      });
+      // setBill({
+      //   customer_name: formData.name,
+      //   pickup_location: formData.pickup,
+      //   drop_location: formData.drop,
+      //   distance_km: distance,
+      //   night_charge: formData.nightCharge,
+      //   toll_charge: parseFloat(formData.tollCharge),
+      //   fare_total: res.data.fare,
+      //   payment_mode: formData.paymentMode,
+      //   driver_name: formData.driverName,
+      //   bill_number: res.data.billNumber,
+      //   created_at: new Date().toISOString(),
+      // });
 
       alert('✅ Ride added successfully!');
     } catch (err) {
