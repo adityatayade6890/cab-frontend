@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import BillPreview from './BillPreview';
+// import BillPreview from './BillPreview';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -22,8 +22,8 @@ const RideForm = () => {
   });
 
   const [fare, setFare] = useState(null);
-  const [bill, setBill] = useState(null);
-  const [rideId, setRideId] = useState(null);
+  // const [bill, setBill] = useState(null);
+  // const [rideId, setRideId] = useState(null);
   // const [billNumber, setBillNumber] = useState(null);
   const [calculatedDistance, setCalculatedDistance] = useState(0);
 
