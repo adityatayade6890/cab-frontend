@@ -1,32 +1,57 @@
+// src/components/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Home.css'; // You can create this file for extra styling if needed
+import './Home.css'; // Optional: For custom styling if needed
 
-const Home = () => {
-  return (
-    <div className="home-container d-flex flex-column align-items-center justify-content-center text-center py-5">
-      <div className="bg-light rounded p-5 shadow-lg" style={{ maxWidth: '800px' }}>
-        <h1 className="display-5 fw-bold mb-3 text-primary">
-          🚖 Star Enterprises Cab Billing System
-        </h1>
-        <p className="lead text-secondary">
-          Manage rides, generate professional bills, and export your reports—all in one place.
-        </p>
+const Home = () => (
+  <div className="home-page">
+    <header className="hero bg-dark text-white py-5 text-center">
+      <div className="container">
+        <h1 className="display-4 fw-bold">🚖 Star Enterprises Cab Billing</h1>
+        <p className="lead">Seamless ride management, billing, and reports — all in one place.</p>
+        <Link to="/new-ride" className="btn btn-warning btn-lg mt-3 shadow">
+          Book a New Ride 🚗
+        </Link>
+      </div>
+    </header>
 
-        <div className="d-flex flex-column flex-md-row gap-3 justify-content-center mt-4">
-          <Link to="/new-ride" className="btn btn-success btn-lg px-4">
-            🚗 Book a Ride
-          </Link>
-          <Link to="/ride-history" className="btn btn-outline-primary btn-lg px-4">
-            📜 View Ride History
-          </Link>
-          <Link to="/export" className="btn btn-outline-secondary btn-lg px-4">
-            📤 Export Reports
-          </Link>
+    <section className="features container py-5">
+      <div className="row text-center g-4">
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title">📄 Generate Bills</h5>
+              <p className="card-text">Create professional PDF bills instantly for your rides.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title">📋 Ride History</h5>
+              <p className="card-text">View and filter past ride details for any date or driver.</p>
+              <Link to="/ride-history" className="btn btn-outline-primary mt-2">View Rides</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-4">
+          <div className="card h-100 shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title">📊 Export Reports</h5>
+              <p className="card-text">Download Excel reports with date-wise filtering.</p>
+              <Link to="/export" className="btn btn-outline-success mt-2">Export</Link>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    </section>
+
+    <footer className="bg-light text-center py-3 border-top mt-5">
+      <p className="mb-0">&copy; {new Date().getFullYear()} Star Enterprises. All rights reserved.</p>
+    </footer>
+  </div>
+);
 
 export default Home;

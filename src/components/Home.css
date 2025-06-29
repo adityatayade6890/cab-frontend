@@ -1,4 +1,8 @@
-.home-container {
-  min-height: 100vh;
-  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+/* src/components/Home.css */
+.hero {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+}
+
+.card-title {
+  font-weight: 600;
 }
