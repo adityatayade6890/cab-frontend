@@ -1,0 +1,4 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+}
