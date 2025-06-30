@@ -262,10 +262,10 @@ const GenerateBillForm = () => {
 
         <div className="row g-3">
           {[
-            ['packageQty', 'Days'], ['packageRate', 'Rate/Day'],
+            ['packageQty', 'Number of KM'], ['packageRate', 'Rate/KM'],
             ['extraKmQty', 'Extra KM'], ['extraKmRate', 'Rate/KM'],
             ['extraTimeQty', 'Extra Hrs'], ['extraTimeRate', 'Rate/Hr'],
-            ['toll', 'Toll ₹'], ['driverAllowance', 'Driver Allowance ₹']
+            ['toll', 'Toll & Parking ₹'], ['driverAllowance', 'Driver Allowance ₹']
           ].map(([name, placeholder]) => (
             <div className="col-md-3" key={name}>
               <input

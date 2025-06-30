@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RideForm from './components/RideForm';
 import Home from './components/Home';
-import ExportDashboard from './components/ExportDashboard';
-import Navbar from './components/Navbar';
-import RideHistory from './components/RideHistory';
+// import ExportDashboard from './components/ExportDashboard';
+// import Navbar from './components/Navbar';
+// import RideHistory from './components/RideHistory';
 
 function App() {
   return (
@@ -15,8 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new-ride" element={<RideForm />} />
-          <Route path="/export-dashboard" element={<ExportDashboard />} />
-          <Route path="/ride-history" element={<RideHistory />} />
+          {/* <Route path="/export-dashboard" element={<ExportDashboard />} />
+          <Route path="/ride-history" element={<RideHistory />} /> */}
         </Routes>
       </div>
     </Router>
