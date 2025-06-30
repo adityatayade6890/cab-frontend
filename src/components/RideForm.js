@@ -198,7 +198,7 @@ const GenerateBillForm = () => {
               {Array.isArray(cars) && cars.length > 0 &&
                 cars.map(car => (
                   <option key={car.id} value={car.id}>
-                    {car.model} - {car.registration_no}
+                    {car.model_name} - {car.vehicle_no}
                   </option>
                 ))
               }
