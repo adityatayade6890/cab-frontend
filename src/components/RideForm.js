@@ -130,7 +130,7 @@ const GenerateBillForm = () => {
     };
 
     try {
-      const res = await axios.post('/api/bills', data);
+      const res = await axios.post('/', data);
       const invoiceNumber = res.data.invoice_number;
 
       const lastSpaceIndex = carId.lastIndexOf(' ');
