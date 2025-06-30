@@ -1,204 +1,207 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-// import BillPreview from './BillPreview';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-const RideForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    pickup: '',
-    drop: '',
-    distanceSource: 'manual',
-    startKm: '',
-    endKm: '',
-    distanceKm: '',
-    nightCharge: false,
-    tollCharge: 0,
-    paymentMode: 'Cash',
-    driverName: '',
+const GenerateBillForm = () => {
+  const [form, setForm] = useState({
+    invoiceDate: '',
+    invoiceNumber: '',
+    orderBy: '',
+    usedBy: '',
+    tripDetails: '',
+    vehicleNumber: '',
+    packageQty: '',
+    packageRate: '',
+    extraKmQty: '',
+    extraKmRate: '',
+    extraTimeQty: '',
+    extraTimeRate: '',
+    toll: '',
+    driverAllowance: '',
   });
 
-  const [fare, setFare] = useState(null);
-  // const [bill, setBill] = useState(null);
-  // const [rideId, setRideId] = useState(null);
-  // const [billNumber, setBillNumber] = useState(null);
-  const [calculatedDistance, setCalculatedDistance] = useState(0);
-
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
 
-    setFormData((prev) => {
-      const updatedForm = {
-        ...prev,
-        [name]: type === 'checkbox' ? checked : value,
-      };
+  const numberToWords = (num) => {
+    const a = ['', 'One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+    const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+    if ((num = num.toString()).length > 9) return 'overflow';
+    let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return;
+    let str = '';
+    str += n[1] != 0 ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
+    str += n[2] != 0 ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
+    str += n[3] != 0 ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
+    str += n[4] != 0 ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' Hundred ' : '';
+    str += n[5] != 0 ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
+    return str.trim() + ' only';
+  };
 
-      if (
-        updatedForm.distanceSource === 'manual' &&
-        (name === 'startKm' || name === 'endKm')
-      ) {
-        const start = parseFloat(updatedForm.startKm || 0);
-        const end = parseFloat(updatedForm.endKm || 0);
-        const dist = end - start;
-        setCalculatedDistance(dist > 0 ? dist : 0);
-      }
+  const generatePDF = (billData) => {
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
-      if (updatedForm.distanceSource === 'maps' && name === 'distanceKm') {
-        const dist = parseFloat(value);
-        setCalculatedDistance(dist > 0 ? dist : 0);
-      }
+    // Header
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(200, 0, 0);
+    doc.text('STAR ENTERPRISES', 105, 15, { align: 'center' });
 
-      return updatedForm;
+    doc.setFontSize(10);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'normal');
+    doc.text('GSTIN NO.: 27ANDPC5898G1ZR', 105, 21, { align: 'center' });
+    doc.text('S.No.70, Vitthal Residency, Flat No.504, Near Ganesh Temple, Suman Clinic, Kiwale, Dehu Road, Pune - 412101', 105, 26, { align: 'center', maxWidth: 180 });
+    doc.text('Email: starenterprises.bc@gmail.com', 105, 31, { align: 'center' });
+    doc.line(10, 34, 200, 34);
+
+    // Invoice Info
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 40);
+    doc.text(`DATE: ${billData.invoiceDate}`, 160, 40);
+
+    // "TO" section
+    doc.setFontSize(10);
+    doc.text('TO,', 14, 47);
+    doc.setFont('helvetica', 'normal');
+    const toLines = [
+      'FINOLEX INDUSTRIES LTD.',
+      '11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273',
+      'Email: fil@finolexind.com',
+      'GSTIN: 27AAACF2634A1Z9',
+      'State Code: 27 (Maharashtra)',
+      'SAC Code: 996601'
+    ];
+    toLines.forEach((line, idx) => doc.text(line, 14, 52 + idx * 5));
+
+    // Subject & other details
+    doc.setFont('helvetica', 'bold');
+    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 85);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Used By: ${billData.usedBy}`, 160, 85, { align: 'right' });
+    doc.text(`Order By: ${billData.orderBy}`, 14, 90);
+    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 95);
+
+    // Body lines
+    doc.setFont('helvetica', 'bold');
+    doc.text('Respected Sir/Ma\'am,', 14, 102);
+    doc.setFont('helvetica', 'normal');
+    doc.text('With reference to above subject, the vehicle was used for official purpose of the company.', 14, 107);
+    doc.text('Please find enclosed the bill for the same.', 14, 112);
+
+    // Vehicle No.
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Vehicle No: ${billData.vehicleNumber}`, 14, 119);
+
+    // Detail table
+    autoTable(doc, {
+      startY: 125,
+      head: [['Sr. No.', 'Particular', 'Qty/Days/Hrs/KM', 'Rate (₹)', 'Amount (₹)']],
+      body: [
+        ['1', 'Package Per Day (300 KM)', billData.packageQty, billData.packageRate, billData.packageQty * billData.packageRate],
+        ['2', 'Extra KM', billData.extraKmQty, billData.extraKmRate, billData.extraKmQty * billData.extraKmRate],
+        ['3', 'Extra Time', billData.extraTimeQty, billData.extraTimeRate, billData.extraTimeQty * billData.extraTimeRate],
+        ['4', 'Toll & Parking', '', '', billData.toll],
+        ['5', 'Driver Allowance', '', '', billData.driverAllowance],
+        ['6', 'Total Bill Amount (in Figures)', '', '', billData.totalAmount.toFixed(2)],
+      ],
+      theme: 'grid',
+      styles: { halign: 'center', fontSize: 9 },
+      headStyles: { fillColor: [52,73,94], textColor: 255, fontStyle: 'bold' },
     });
+
+    const finalY = doc.lastAutoTable.finalY + 6;
+
+    // Total in words
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total Bill Amount (in Words): ${billData.totalInWords}`, 14, finalY);
+
+    // Closing & bank
+    doc.setFont('helvetica', 'normal');
+    doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 6);
+    doc.text('Bank A/C No: 02001119000023   |   IFSC Code: JPCB0000020', 14, finalY + 12);
+    doc.text('Enclosed: Supporting Documents', 14, finalY + 18);
+
+    // Footer with signature
+    doc.setFont('helvetica', 'bold');
+    doc.text('Regards,', 195, finalY + 25, { align: 'right' });
+    doc.text('STAR ENTERPRISES', 195, finalY + 30, { align: 'right' });
+    doc.text('Authorized Signatory', 195, finalY + 35, { align: 'right' });
+
+    doc.save(`Bill_${billData.vehicleNumber}.pdf`);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const distance =
-      formData.distanceSource === 'manual'
-        ? parseFloat(formData.endKm || 0) - parseFloat(formData.startKm || 0)
-        : parseFloat(formData.distanceKm || 0);
-
-    if (distance <= 0 || isNaN(distance)) {
-      alert('Invalid distance. Please check odometer values.');
-      return;
-    }
-
-    const payload = {
-      customer: {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-      },
-      pickup_location: formData.pickup,
-      drop_location: formData.drop,
-      distance_km: distance,
-      distance_source: formData.distanceSource,
-      start_km: parseInt(formData.startKm) || null,
-      end_km: parseInt(formData.endKm) || null,
-      night_charge: formData.nightCharge,
-      toll_charge: parseFloat(formData.tollCharge),
-      payment_mode: formData.paymentMode,
-      driver_name: formData.driverName,
+  const handleGenerateBill = () => {
+    const data = {
+      ...form,
+      packageQty: Number(form.packageQty),
+      packageRate: Number(form.packageRate),
+      extraKmQty: Number(form.extraKmQty),
+      extraKmRate: Number(form.extraKmRate),
+      extraTimeQty: Number(form.extraTimeQty),
+      extraTimeRate: Number(form.extraTimeRate),
+      toll: Number(form.toll),
+      driverAllowance: Number(form.driverAllowance),
     };
-
-    try {
-      const res = await axios.post(`${BASE_URL}/api/rides`, payload);
-
-      setFare(res.data.fare);
-      // setBillNumber(res.data.billNumber);
-      // setRideId(res.data.rideId);
-
-      // setBill({
-      //   customer_name: formData.name,
-      //   pickup_location: formData.pickup,
-      //   drop_location: formData.drop,
-      //   distance_km: distance,
-      //   night_charge: formData.nightCharge,
-      //   toll_charge: parseFloat(formData.tollCharge),
-      //   fare_total: res.data.fare,
-      //   payment_mode: formData.paymentMode,
-      //   driver_name: formData.driverName,
-      //   bill_number: res.data.billNumber,
-      //   created_at: new Date().toISOString(),
-      // });
-
-      alert('✅ Ride added successfully!');
-    } catch (err) {
-      alert('❌ Failed to add ride');
-      console.error(err);
-    }
+    const totalAmount = data.packageQty * data.packageRate +
+                        data.extraKmQty * data.extraKmRate +
+                        data.extraTimeQty * data.extraTimeRate +
+                        data.toll + data.driverAllowance;
+    data.totalAmount = totalAmount;
+    data.totalInWords = numberToWords(Math.round(totalAmount));
+    generatePDF(data);
   };
-
-  // const previewBill = () => {
-  //   if (!rideId) return alert('No ride created yet');
-  //   window.open(`${BASE_URL}/api/rides/${rideId}/preview`, '_blank');
-  // };
-
-  // const sendEmail = async () => {
-  //   if (!rideId) return alert('No ride created yet');
-  //   try {
-  //     const res = await axios.post(`${BASE_URL}/api/rides/${rideId}/send`);
-  //     if (res.data.success) {
-  //       alert('📧 Invoice sent to customer email!');
-  //     } else {
-  //       alert('⚠️ Failed to send email: ' + res.data.error);
-  //     }
-  //   } catch (err) {
-  //     console.error('Email error:', err);
-  //     alert('❌ Email sending failed');
-  //   }
-  // };
 
   return (
-    <form onSubmit={handleSubmit} className="card p-4">
-      <h5>Customer Info</h5>
-      <input className="form-control mb-2" name="name" placeholder="Name" onChange={handleChange} />
-      <input className="form-control mb-2" name="email" placeholder="Email" onChange={handleChange} />
-      <input className="form-control mb-3" name="phone" placeholder="Phone" onChange={handleChange} />
-
-      <h5>Ride Info</h5>
-      <input className="form-control mb-2" name="pickup" placeholder="Pickup Location" onChange={handleChange} />
-      <input className="form-control mb-3" name="drop" placeholder="Drop Location" onChange={handleChange} />
-
-      <div className="mb-3">
-        <label><b>Distance Input:</b></label>
-        <select name="distanceSource" className="form-select" onChange={handleChange}>
-          <option value="manual">Manual KM Entry</option>
-          <option value="maps">Google Maps</option>
-        </select>
-      </div>
-
-      {formData.distanceSource === 'manual' ? (
-        <>
-          <input className="form-control" name="startKm" placeholder="Start KM" type="number" onChange={handleChange} />
-          <input className="form-control mb-3" name="endKm" placeholder="End KM" type="number" onChange={handleChange} />
-        </>
-      ) : (
-        <input className="form-control mb-3" name="distanceKm" placeholder="Distance (KM)" type="number" onChange={handleChange} />
-      )}
-
-      <div className="alert alert-info">
-        <strong>Calculated Distance:</strong> {calculatedDistance} km
-      </div>
-
-      <div className="form-check mb-2">
-        <input className="form-check-input" type="checkbox" name="nightCharge" onChange={handleChange} />
-        <label className="form-check-label">Night Charge</label>
-      </div>
-
-      <input className="form-control mb-2" name="tollCharge" placeholder="Toll Charges (₹)" type="number" onChange={handleChange} />
-      <input className="form-control mb-2" name="driverName" placeholder="Driver Name" onChange={handleChange} />
-
-      <select className="form-select mb-3" name="paymentMode" onChange={handleChange}>
-        <option value="Cash">Cash</option>
-        <option value="UPI">UPI</option>
-        <option value="Card">Card</option>
-      </select>
-
-      <button className="btn btn-primary">Submit Ride</button>
-
-      {fare && (
-        <div className="alert alert-success mt-3">
-          <strong>Total Fare:</strong> ₹{fare.toFixed(2)}
+    <div className="container mt-4">
+      <h3 className="text-center mb-4">🧾 Generate Star Enterprises Bill</h3>
+      <div className="card p-4 shadow">
+        <div className="row mb-3">
+          {['invoiceDate','invoiceNumber','orderBy','usedBy','tripDetails','vehicleNumber'].map(f => (
+            <div key={f} className="col-md-4 mb-2">
+              <input
+                type={f==='invoiceDate'? 'date':'text'}
+                name={f}
+                placeholder={f.replace(/([A-Z])/g,' $1')}
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+          ))}
         </div>
-      )}
 
-      {/* {rideId && (
-        <div className="mt-3">
-          <h6>🧾 Bill: {billNumber}</h6>
-          <button className="btn btn-outline-dark me-2" onClick={previewBill}>🔍 Preview Bill</button>
-          <button className="btn btn-success" onClick={sendEmail}>📧 Send Email</button>
+        <div className="row g-3">
+          {[
+            ['packageQty','Days'],
+            ['packageRate','Rate/Day'],
+            ['extraKmQty','Extra KM'],
+            ['extraKmRate','Rate/KM'],
+            ['extraTimeQty','Extra Hrs'],
+            ['extraTimeRate','Rate/Hr'],
+            ['toll','Toll ₹'],
+            ['driverAllowance','Driver Allowance ₹']
+          ].map(([name,pl]) => (
+            <div key={name} className="col-md-3">
+              <input
+                type="number"
+                name={name}
+                placeholder={pl}
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+          ))}
         </div>
-      )} */}
 
-      {/* <BillPreview bill={bill} /> */}
-    </form>
+        <button className="btn btn-success mt-4" onClick={handleGenerateBill}>
+          📄 Generate PDF
+        </button>
+      </div>
+    </div>
   );
 };
 
-export default RideForm;
+export default GenerateBillForm;
