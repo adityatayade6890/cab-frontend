@@ -74,8 +74,8 @@ const GenerateBillForm = () => {
     // ====== INVOICE INFO ======
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
-    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 58);
-    doc.text(`DATE: ${billData.invoiceDate}`, 180, 58, { align: 'right' });
+    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 54);
+    doc.text(`DATE: ${billData.invoiceDate}`, 180, 54, { align: 'right' });
 
     // ====== TO Section ======
     doc.setFontSize(10);
@@ -85,7 +85,7 @@ const GenerateBillForm = () => {
     doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 73);
     doc.text('Email: fil@finolexind.com', 14, 78);
     doc.text('GSTIN: 27AAACF2634A1Z9', 14, 83);
-    doc.text('State Code: 27 (Maharashtra)', 14, 87);
+    doc.text('State Code: 27 (Maharashtra)', 14, 88);
     doc.text('SAC Code: 996601', 14, 93);
 
     // ====== SUBJECT + ORDER ======
