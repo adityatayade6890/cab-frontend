@@ -25,13 +25,13 @@ const GenerateBillForm = () => {
   // 🔄 Fetch Cars
   useEffect(() => {
     axios.get('/api/bills/cars')
-      .then(res => {
-        setCars(res.data); // ✅ Corrected: use res.data directly
-      })
+      .then(res => setCars(res.data))
       .catch(err => {
         console.error('❌ Error fetching cars:', err);
+        setCars([]); // fallback
       });
   }, []);
+
 
   // 🖋️ Input handler
   const handleChange = (e) => {
@@ -198,17 +198,29 @@ const GenerateBillForm = () => {
             <input name="tripDetails" className="form-control" value={form.tripDetails} onChange={handleChange} />
           </div>
           <div className="col-md-6">
-            <label>Vehicle</label>
-            <select name="carId" className="form-control" onChange={handleChange} value={form.carId}>
-              <option value="">Select Car</option>
-              {cars.length === 0 && <option disabled>No vehicles available</option>}
-              {cars.map(car => (
+          <label>Vehicle</label>
+          <select
+            name="carId"
+            className="form-control"
+            onChange={handleChange}
+            value={form.carId}
+            disabled={cars.length === 0} // prevent selection if no cars
+          >
+            <option value="">Select Car</option>
+
+            {cars.length === 0 ? (
+              <option disabled>No vehicles available</option>
+            ) : (
+              cars.map((car) => (
                 <option key={car.id} value={car.id}>
                   {car.model_name} - {car.vehicle_number}
                 </option>
-              ))}
-            </select>
-          </div>
+              ))
+            )}
+          </select>
+        </div>
+
+
         </div>
 
         <div className="row g-3">
