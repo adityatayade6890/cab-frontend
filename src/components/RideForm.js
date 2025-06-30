@@ -30,19 +30,15 @@ const GenerateBillForm = () => {
       })
       .catch(err => {
         console.error('❌ Error fetching cars:', err);
-        setCars([]); // fallback to empty array
+        setCars([]);
       });
   }, []);
 
-
-
-  // 🖋️ Input handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  // 🔢 Convert number to words
   const numberToWords = (num) => {
     const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
       'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
@@ -59,7 +55,6 @@ const GenerateBillForm = () => {
     return str.trim() + ' only';
   };
 
-  // 📄 Generate PDF
   const generatePDF = (billData) => {
     const doc = new jsPDF('p', 'mm', 'a4');
     doc.setFont('helvetica', 'bold');
@@ -120,7 +115,6 @@ const GenerateBillForm = () => {
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
 
-  // ✅ Generate Bill Handler
   const handleGenerateBill = async () => {
     const {
       invoiceDate, orderBy, usedBy, tripDetails, carId,
@@ -153,7 +147,7 @@ const GenerateBillForm = () => {
       const res = await axios.post('/api/bills', data);
       const invoiceNumber = res.data.invoice_number;
 
-      const selectedCar = cars.find(c => c.id === parseInt(carId));
+      const selectedCar = cars.find(c => String(c.id) === String(carId));
       const totalAmount =
         data.package_qty * data.package_rate +
         data.extra_km_qty * data.extra_km_rate +
@@ -201,29 +195,26 @@ const GenerateBillForm = () => {
             <input name="tripDetails" className="form-control" value={form.tripDetails} onChange={handleChange} />
           </div>
           <div className="col-md-6">
-          <label>Vehicle</label>
-          <select
-            name="carId"
-            className="form-control"
-            onChange={handleChange}
-            value={form.carId}
-            disabled={cars.length === 0} // prevent selection if no cars
-          >
-            <option value="">Select Car</option>
-
-            {cars.length === 0 ? (
-              <option disabled>No vehicles available</option>
-            ) : (
-              cars.map((car) => (
-                <option key={car.id} value={car.id}>
-                  {car.model_name} - {car.vehicle_number}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-
-
+            <label>Vehicle</label>
+            <select
+              name="carId"
+              className="form-control"
+              onChange={handleChange}
+              value={form.carId}
+              disabled={cars.length === 0}
+            >
+              <option value="">Select Car</option>
+              {cars.length === 0 ? (
+                <option disabled>No vehicles available</option>
+              ) : (
+                cars.map((car) => (
+                  <option key={car.id} value={car.id}>
+                    {car.model_name} - {car.vehicle_number}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
         </div>
 
         <div className="row g-3">
@@ -234,12 +225,20 @@ const GenerateBillForm = () => {
             ['toll', 'Toll ₹'], ['driverAllowance', 'Driver Allowance ₹']
           ].map(([name, placeholder]) => (
             <div className="col-md-3" key={name}>
-              <input name={name} placeholder={placeholder} className="form-control" value={form[name]} onChange={handleChange} />
+              <input
+                name={name}
+                placeholder={placeholder}
+                className="form-control"
+                value={form[name]}
+                onChange={handleChange}
+              />
             </div>
           ))}
         </div>
 
-        <button className="btn btn-success mt-4" onClick={handleGenerateBill}>📄 Generate PDF</button>
+        <button className="btn btn-success mt-4" onClick={handleGenerateBill}>
+          📄 Generate PDF
+        </button>
       </div>
     </div>
   );
