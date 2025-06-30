@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import axios from 'axios';
@@ -19,20 +19,6 @@ const GenerateBillForm = () => {
     toll: '',
     driverAllowance: ''
   });
-
-  const [cars, setCars] = useState([]);
-
-  // 🔄 Fetch Cars
-  useEffect(() => {
-    axios.get('/api/bills/cars')
-      .then(res => {
-        setCars(res.data); // ✅ assume res.data is already an array
-      })
-      .catch(err => {
-        console.error('❌ Error fetching cars:', err);
-        setCars([]);
-      });
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -147,7 +133,10 @@ const GenerateBillForm = () => {
       const res = await axios.post('/api/bills', data);
       const invoiceNumber = res.data.invoice_number;
 
-      const selectedCar = cars.find(c => String(c.id) === String(carId));
+      const lastSpaceIndex = carId.lastIndexOf(' ');
+      const carModel = carId.slice(0, lastSpaceIndex);
+      const carRegNo = carId.slice(lastSpaceIndex + 1);
+
       const totalAmount =
         data.package_qty * data.package_rate +
         data.extra_km_qty * data.extra_km_rate +
@@ -159,8 +148,8 @@ const GenerateBillForm = () => {
         totalAmount,
         totalInWords: numberToWords(Math.round(totalAmount)),
         invoiceNumber,
-        carModel: selectedCar.model_name,
-        carRegNo: selectedCar.vehicle_number
+        carModel,
+        carRegNo
       };
 
       generatePDF(pdfData);
@@ -201,15 +190,11 @@ const GenerateBillForm = () => {
               className="form-control"
               onChange={handleChange}
               value={form.carId}
-              disabled={cars.length === 0}
             >
               <option value="">Select Car</option>
-              {Array.isArray(cars) && cars.map(car => (
-                <option key={car.id} value={car.id}>
-                  {car.model_name} - {car.vehicle_number}
-                </option>
-              ))}
-
+              <option value="Dzire MH14LB8443">Dzire MH14LB8443</option>
+              <option value="Dzire MH14LB6365">Dzire MH14LB6365</option>
+              <option value="Dzire MH14KA9157">Dzire MH14KA9157</option>
             </select>
           </div>
         </div>
