@@ -155,8 +155,8 @@ const GenerateBillForm = () => {
         totalAmount,
         totalInWords: numberToWords(Math.round(totalAmount)),
         invoiceNumber,
-        carModel: selectedCar.model,
-        carRegNo: selectedCar.registration_no
+        carModel: selectedCar.model_name,
+        carRegNo: selectedCar.vehicle_number
       };
 
       generatePDF(pdfData);
