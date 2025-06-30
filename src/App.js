@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RideForm from './components/RideForm';
 import Home from './components/Home';
 // import ExportDashboard from './components/ExportDashboard';
-// import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';
 // import RideHistory from './components/RideHistory';
 
 function App() {
