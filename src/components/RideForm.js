@@ -25,12 +25,15 @@ const GenerateBillForm = () => {
   // 🔄 Fetch Cars
   useEffect(() => {
     axios.get('/api/bills/cars')
-      .then(res => setCars(res.data))
+      .then(res => {
+        setCars(res.data); // ✅ assume res.data is already an array
+      })
       .catch(err => {
         console.error('❌ Error fetching cars:', err);
-        setCars([]); // fallback
+        setCars([]); // fallback to empty array
       });
   }, []);
+
 
 
   // 🖋️ Input handler
