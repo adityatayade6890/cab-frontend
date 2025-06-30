@@ -24,9 +24,16 @@ const GenerateBillForm = () => {
 
   useEffect(() => {
     axios.get('/api/bills/cars')
-      .then(res => setCars(res.data))
-      .catch(err => console.error('❌ Error fetching cars:', err));
+      .then(res => {
+        if (Array.isArray(res.data)) setCars(res.data);
+        else setCars([]);
+      })
+      .catch(err => {
+        console.error('❌ Error fetching cars:', err);
+        setCars([]); // fallback to empty array
+      });
   }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -186,14 +193,17 @@ const GenerateBillForm = () => {
           </div>
           <div className="col-md-6">
             <label>Vehicle</label>
-            <select name="carId" className="form-control" onChange={handleChange}>
+            <select name="carId" className="form-control" onChange={handleChange} value={form.carId}>
               <option value="">Select Car</option>
-              {cars.map(car => (
-                <option key={car.id} value={car.id}>
-                  {car.model} - {car.registration_no}
-                </option>
-              ))}
+              {Array.isArray(cars) && cars.length > 0 &&
+                cars.map(car => (
+                  <option key={car.id} value={car.id}>
+                    {car.model} - {car.registration_no}
+                  </option>
+                ))
+              }
             </select>
+
           </div>
         </div>
 
