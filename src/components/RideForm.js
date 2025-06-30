@@ -22,32 +22,31 @@ const GenerateBillForm = () => {
 
   const [cars, setCars] = useState([]);
 
+  // 🔄 Fetch Cars
   useEffect(() => {
     axios.get('/api/bills/cars')
       .then(res => {
-        setCars([res.data]);
+        setCars(res.data); // ✅ Corrected: use res.data directly
       })
       .catch(err => {
         console.error('❌ Error fetching cars:', err);
-        // setCars([]); // fallback to empty array
       });
   }, []);
 
-
+  // 🖋️ Input handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // 🔢 Convert number to words
   const numberToWords = (num) => {
     const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
       'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
     if ((num = num.toString()).length > 9) return 'overflow';
     const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return;
-
     let str = '';
     str += n[1] !== '00' ? (a[+n[1]] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
     str += n[2] !== '00' ? (a[+n[2]] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
@@ -57,6 +56,7 @@ const GenerateBillForm = () => {
     return str.trim() + ' only';
   };
 
+  // 📄 Generate PDF
   const generatePDF = (billData) => {
     const doc = new jsPDF('p', 'mm', 'a4');
     doc.setFont('helvetica', 'bold');
@@ -117,12 +117,18 @@ const GenerateBillForm = () => {
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
 
+  // ✅ Generate Bill Handler
   const handleGenerateBill = async () => {
     const {
       invoiceDate, orderBy, usedBy, tripDetails, carId,
       packageQty, packageRate, extraKmQty, extraKmRate,
       extraTimeQty, extraTimeRate, toll, driverAllowance
     } = form;
+
+    if (!invoiceDate || !orderBy || !usedBy || !tripDetails || !carId) {
+      alert('⚠️ Please fill all required fields.');
+      return;
+    }
 
     const data = {
       invoice_date: invoiceDate,
@@ -143,6 +149,7 @@ const GenerateBillForm = () => {
     try {
       const res = await axios.post('/api/bills', data);
       const invoiceNumber = res.data.invoice_number;
+
       const selectedCar = cars.find(c => c.id === parseInt(carId));
       const totalAmount =
         data.package_qty * data.package_rate +
@@ -161,7 +168,7 @@ const GenerateBillForm = () => {
 
       generatePDF(pdfData);
     } catch (err) {
-      alert('Failed to generate bill.');
+      alert('❌ Failed to generate bill.');
       console.error(err);
     }
   };
@@ -173,36 +180,34 @@ const GenerateBillForm = () => {
         <div className="row mb-3">
           <div className="col-md-4">
             <label>Date</label>
-            <input type="date" name="invoiceDate" className="form-control" onChange={handleChange} />
+            <input type="date" name="invoiceDate" className="form-control" value={form.invoiceDate} onChange={handleChange} />
           </div>
           <div className="col-md-4">
             <label>Order By</label>
-            <input name="orderBy" className="form-control" onChange={handleChange} />
+            <input name="orderBy" className="form-control" value={form.orderBy} onChange={handleChange} />
           </div>
           <div className="col-md-4">
             <label>Used By</label>
-            <input name="usedBy" className="form-control" onChange={handleChange} />
+            <input name="usedBy" className="form-control" value={form.usedBy} onChange={handleChange} />
           </div>
         </div>
 
         <div className="row mb-3">
           <div className="col-md-6">
             <label>Trip Details</label>
-            <input name="tripDetails" className="form-control" onChange={handleChange} />
+            <input name="tripDetails" className="form-control" value={form.tripDetails} onChange={handleChange} />
           </div>
           <div className="col-md-6">
             <label>Vehicle</label>
             <select name="carId" className="form-control" onChange={handleChange} value={form.carId}>
               <option value="">Select Car</option>
-              {Array.isArray(cars) && cars.length > 0 &&
-                cars.map(car => (
-                  <option key={car.id} value={car.id}>
-                    {car.model_name} - {car.vehicle_number}
-                  </option>
-                ))
-              }
+              {cars.length === 0 && <option disabled>No vehicles available</option>}
+              {cars.map(car => (
+                <option key={car.id} value={car.id}>
+                  {car.model_name} - {car.vehicle_number}
+                </option>
+              ))}
             </select>
-
           </div>
         </div>
 
@@ -214,7 +219,7 @@ const GenerateBillForm = () => {
             ['toll', 'Toll ₹'], ['driverAllowance', 'Driver Allowance ₹']
           ].map(([name, placeholder]) => (
             <div className="col-md-3" key={name}>
-              <input name={name} placeholder={placeholder} className="form-control" onChange={handleChange} />
+              <input name={name} placeholder={placeholder} className="form-control" value={form[name]} onChange={handleChange} />
             </div>
           ))}
         </div>
