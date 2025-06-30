@@ -204,15 +204,12 @@ const GenerateBillForm = () => {
               disabled={cars.length === 0}
             >
               <option value="">Select Car</option>
-              {cars.length === 0 ? (
-                <option disabled>No vehicles available</option>
-              ) : (
-                cars.map((car) => (
-                  <option key={car.id} value={car.id}>
-                    {car.model_name} - {car.vehicle_number}
-                  </option>
-                ))
-              )}
+              {Array.isArray(cars) && cars.map(car => (
+                <option key={car.id} value={car.id}>
+                  {car.model_name} - {car.vehicle_number}
+                </option>
+              ))}
+
             </select>
           </div>
         </div>
