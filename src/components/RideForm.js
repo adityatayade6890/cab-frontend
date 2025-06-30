@@ -55,21 +55,21 @@ const GenerateBillForm = () => {
 
 
     // ====== HEADER ======
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(20);
-    doc.setTextColor(200, 0, 0);
-    doc.text('STAR ENTERPRISES', 105, 15, { align: 'center' });
+    //doc.setFont('helvetica', 'bold');
+    //doc.setFontSize(20);
+    //doc.setTextColor(200, 0, 0);
+   // doc.text('STAR ENTERPRISES', 105, 15, { align: 'center' });
 
-    doc.setFontSize(10);
-    doc.setTextColor(0);
-    doc.setFont('helvetica', 'normal');
-    doc.text('GSTIN NO.: 27ANDPC5898G1ZR', 105, 23, { align: 'center' });
-    doc.text('S.No.70, Vitthal Residency, Flat No.504, Near Ganesh Temple, Suman Clinic,', 105, 28, { align: 'center' });
-    doc.text('Bhimashankar Nagar, Kiwale, Dehu Road, Pune - 412101', 105, 33, { align: 'center' });
-    doc.text('Email: starenterprises.bc@gmail.com | Contact: 9923739944 / 8484923319', 105, 38, { align: 'center' });
+    //doc.setFontSize(10);
+    //doc.setTextColor(0);
+    //doc.setFont('helvetica', 'normal');
+    //doc.text('GSTIN NO.: 27ANDPC5898G1ZR', 105, 23, { align: 'center' });
+    //doc.text('S.No.70, Vitthal Residency, Flat No.504, Near Ganesh Temple, Suman Clinic,', 105, 28, { align: 'center' });
+    //doc.text('Bhimashankar Nagar, Kiwale, Dehu Road, Pune - 412101', 105, 33, { align: 'center' });
+    //doc.text('Email: starenterprises.bc@gmail.com | Contact: 9923739944 / 8484923319', 105, 38, { align: 'center' });
 
-    doc.setLineWidth(0.5);
-    doc.line(10, 41, 200, 41); // horizontal separator
+    //doc.setLineWidth(0.5);
+    //doc.line(10, 41, 200, 41); // horizontal separator
 
     // ====== INVOICE INFO ======
     doc.setFont('helvetica', 'bold');
