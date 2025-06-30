@@ -163,7 +163,7 @@ const GenerateBillForm = () => {
     doc.text('Authorized Signatory', 200, finalY + 48, { align: 'right' });
 
     // ====== SAVE PDF ======
-    doc.save(`Bill_${billData.carModel}_${billData.invoiceDate}.pdf`);
+    doc.save(`${billData.used_by}_${billData.model}_${billData.invoiceDate}.pdf`);
   };
 
 
