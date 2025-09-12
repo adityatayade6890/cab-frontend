@@ -256,6 +256,7 @@ const GenerateBillForm = () => {
               <option value="1">Dzire MH14LB8443</option>
               <option value="2">Dzire MH14LB6365</option>
               <option value="3">Dzire MH14KA9157</option>
+              <option value="3">Dzire MH14KQ9461</option>
             </select>
           </div>
         </div>
