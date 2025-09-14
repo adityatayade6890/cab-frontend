@@ -132,7 +132,7 @@ const GenerateBillForm = () => {
       theme: 'grid',
       headStyles: {
         fillColor: [41, 146, 185],
-        textColor: 255,
+        textColor: 300,
         fontStyle: 'bold',
       },
       styles: {
