@@ -6,7 +6,9 @@ import axios from 'axios';
 const carDetails = {
   1: { model: 'Dzire', reg: 'MH14LB8443' },
   2: { model: 'Dzire', reg: 'MH14LB6365' },
-  3: { model: 'Dzire', reg: 'MH14KA9157' }
+  3: { model: 'Dzire', reg: 'MH14KA9157' },
+  4: { model: 'Ertiga', reg: 'MH14KQ9416' },
+  5: { model: 'Ertiga', reg: 'MH09GA2901' }
 };
 
 const GenerateBillForm = () => {
