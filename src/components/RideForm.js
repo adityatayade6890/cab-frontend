@@ -289,9 +289,9 @@ const GenerateBillForm = () => {
           ))}
         </div>
 
-       <button className="btn btn-success mt-4" onClick={handleGenerateBill} disabled={loading}>
-        {loading ? '⏳ Generating...' : '📄 Generate PDF'}
-       </button>
+       <button className="btn btn-success mt-4" onClick={handleGenerateBill}>
+          📄 Generate PDF
+        </button>
       </div>
     </div>
   );
