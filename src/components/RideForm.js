@@ -95,7 +95,7 @@ const GenerateBillForm = () => {
 
     // ====== SUBJECT + ORDER ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 108);
+    doc.text(`SUB: Submission of bill for the days of ${billData.invoiceDate}`, 14, 108);
     doc.setFont('helvetica', 'normal');
     doc.text(`Order By: ${billData.orderBy}`, 14, 115);
     doc.text(`Used By: ${billData.usedBy}`, 120, 115);
@@ -166,7 +166,7 @@ const GenerateBillForm = () => {
     doc.text('Regards,', 200, finalY + 30, { align: 'right' });
     doc.text('STAR ENTERPRISES', 200, finalY + 35, { align: 'right' });
     
-    doc.text('Authorized Signatory', 200, finalY + 45, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 55, { align: 'right' });
 
     // ====== SAVE PDF ======
     doc.save(`BILL_${billData.usedBy}_${billData.carModel}_${billData.invoiceDate}.pdf`);
