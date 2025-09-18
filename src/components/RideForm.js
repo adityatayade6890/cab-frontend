@@ -79,44 +79,44 @@ const GenerateBillForm = () => {
     // ====== INVOICE INFO ======
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
-    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 54);
-    doc.text(`DATE: ${billData.invoiceDate}`, 180, 54, { align: 'right' });
+    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 64);
+    doc.text(`DATE: ${billData.invoiceDate}`, 180, 64, { align: 'right' });
 
     // ====== TO Section ======
     doc.setFontSize(10);
-    doc.text('TO,', 14, 63);
+    doc.text('TO,', 14, 70);
     doc.setFont('helvetica', 'normal');
-    doc.text('FINOLEX INDUSTRIES LTD.', 14, 68);
-    doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 73);
-    doc.text('Email: fil@finolexind.com', 14, 78);
-    doc.text('GSTIN: 27AAACF2634A1Z9', 14, 83);
-    doc.text('State Code: 27 (Maharashtra)', 14, 88);
-    doc.text('SAC Code: 996601', 14, 93);
+    doc.text('FINOLEX INDUSTRIES LTD.', 14, 75);
+    doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 80);
+    doc.text('Email: fil@finolexind.com', 14, 85);
+    doc.text('GSTIN: 27AAACF2634A1Z9', 14, 88);
+    doc.text('State Code: 27 (Maharashtra)', 14, 95);
+    doc.text('SAC Code: 996601', 14, 100);
 
     // ====== SUBJECT + ORDER ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 103);
+    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 113);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Order By: ${billData.orderBy}`, 14, 109);
-    doc.text(`Used By: ${billData.usedBy}`, 120, 109);
+    doc.text(`Order By: ${billData.orderBy}`, 14, 115);
+    doc.text(`Used By: ${billData.usedBy}`, 120, 115);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10)
-    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 115);
+    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 121);
 
     // ====== BODY ======
     doc.setFont('helvetica', 'bold');
-    doc.text("Respected Sir/Ma'am,", 14, 125);
+    doc.text("Respected Sir/Ma'am,", 14, 135);
     doc.setFont('helvetica', 'normal');
-    doc.text("With reference to above subject, the vehicle was used for official purpose of the company.", 14, 130);
-    doc.text("Please find attached enclose bill for the same.", 14, 135);
+    doc.text("With reference to above subject, the vehicle was used for official purpose of the company.", 14, 140);
+    doc.text("Please find attached enclose bill for the same.", 14, 145);
 
     // ====== VEHICLE ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`Vehicle No: ${billData.carRegNo} ${billData.carModel}`, 14, 145);
+    doc.text(`Vehicle No: ${billData.carRegNo} ${billData.carModel}`, 14, 150);
 
     // ====== TABLE ======
     autoTable(doc, {
-      startY: 150,
+      startY: 155,
       head: [[
         'Sr. No.',
         'Particular',
@@ -140,6 +140,7 @@ const GenerateBillForm = () => {
       },
       styles: {
         fontSize: 10,
+        fontStyle: 'bold',
         cellPadding: 3,
         halign: 'center'
       }
@@ -155,17 +156,17 @@ const GenerateBillForm = () => {
 
     // ====== FOOTER ======
     doc.setFont('helvetica', 'normal');
-    doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 8);
+    doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 15);
     doc.setFont('helvetica', 'bold');
-    doc.text('Bank A/C No: 02001119000023   |   IFSC Code: JPCB0000020', 14, finalY + 18);
-    doc.text('Enclosed:', 14, finalY + 25);
+    doc.text('Bank A/C No: 02001119000023   |   IFSC Code: JPCB0000020', 14, finalY + 25);
+    doc.text('Enclosed:', 14, finalY + 32);
 
     // ====== SIGNATURE ======
     doc.setFont('helvetica', 'bold');
-    doc.text('Regards,', 200, finalY + 28, { align: 'right' });
-    doc.text('STAR ENTERPRISES', 200, finalY + 33, { align: 'right' });
+    doc.text('Regards,', 200, finalY + 35, { align: 'right' });
+    doc.text('STAR ENTERPRISES', 200, finalY + 40, { align: 'right' });
     
-    doc.text('Authorized Signatory', 200, finalY + 48, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 53, { align: 'right' });
 
     // ====== SAVE PDF ======
     doc.save(`BILL_${billData.usedBy}_${billData.carModel}_${billData.invoiceDate}.pdf`);
