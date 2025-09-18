@@ -222,11 +222,7 @@ const GenerateBillForm = () => {
         carModel: selectedCar.model,
         carRegNo: selectedCar.reg
       };
-      if (loading) return;
-        setLoading(true);
-        ...
-        finally { setLoading(false); }
-      };
+    
 
       generatePDF(pdfData);
     } catch (err) {
