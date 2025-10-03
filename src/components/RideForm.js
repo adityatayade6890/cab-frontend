@@ -268,7 +268,7 @@ const GenerateBillForm = () => {
               <option value="5">Ertiga MH09GA2901</option>
               <option value="6">Ertiga MH14LF7494</option>
               <option value="7">Ertiga MH14LL5385</option>
-              <option value="8">Dizre MH14LB9762</option>
+              <option value="8">Dzire MH14LB9762</option>
              </select>
           </div>
         </div>
