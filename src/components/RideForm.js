@@ -10,7 +10,8 @@ const carDetails = {
   4: { model: 'Ertiga', reg: 'MH14KQ9461' },
   5: { model: 'Ertiga', reg: 'MH09GA2901' },
   6: { model: 'Ertiga', reg: 'MH14LF7494' },
-  7: { model: 'Ertiga', reg: 'MH14LL5385' }
+  7: { model: 'Ertiga', reg: 'MH14LL5385' },
+  8: { model: 'Dzire', reg: 'MH14LB9762' }
 };
 
 const GenerateBillForm = () => {
@@ -267,6 +268,7 @@ const GenerateBillForm = () => {
               <option value="5">Ertiga MH09GA2901</option>
               <option value="6">Ertiga MH14LF7494</option>
               <option value="7">Ertiga MH14LL5385</option>
+              <option value="8">Dizre MH14LB9762</option>
              </select>
           </div>
         </div>
