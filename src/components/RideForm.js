@@ -156,7 +156,7 @@ const GenerateBillForm = () => {
     doc.setFont('helvetica', 'bold');
     doc.text('Regards,', 200, finalY + 28, { align: 'right' });
     doc.text('STAR ENTERPRISES', 200, finalY + 33, { align: 'right' });
-    doc.text('Authorized Signatory', 200, finalY + 42, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 50, { align: 'right' });
 
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
