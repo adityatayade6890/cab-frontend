@@ -125,7 +125,7 @@ const GenerateBillForm = () => {
 
     // ====== VEHICLE ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel}) | Package: ${billData.selectedPackage}``, 14, 150);
+    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel}) | Package: ${billData.selectedPackage}`, 14, 150);
 
     // ====== TABLE ======
     autoTable(doc, {
