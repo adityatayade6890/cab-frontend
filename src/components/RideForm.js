@@ -5,10 +5,10 @@ import axios from 'axios';
 
 // ✅ Package & Car Data
 const packageOptions = {
-  'Dzire Local (80 KM/8 Hr)': { model: 'Dzire', baseKm: 80, baseRate: 1400 },
-  'Ertiga Local (80 KM/8 Hr)': { model: 'Ertiga', baseKm: 80, baseRate: 1800 },
-  'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 2200 },
-  'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 2600 },
+  'Dzire Local (80 KM/8 Hr)': { model: 'Dzire', baseKm: 80, baseRate: 1800 },
+  'Ertiga Local (80 KM/8 Hr)': { model: 'Ertiga', baseKm: 80, baseRate: 2600 },
+  'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 4200 },
+  'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 4500 },
 };
 
 // ✅ Car Details (Reg Numbers)
@@ -94,42 +94,42 @@ const GenerateBillForm = () => {
     // ====== INVOICE INFO ======
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
-    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 45);
-    doc.text(`DATE: ${billData.invoiceDate}`, 180, 45, { align: 'right' });
+    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 64);
+    doc.text(`DATE: ${billData.invoiceDate}`, 180, 64, { align: 'right' });
 
     // ====== TO Section ======
     doc.setFontSize(10);
-    doc.text('TO,', 14, 53);
+    doc.text('TO,', 14, 70);
     doc.setFont('helvetica', 'normal');
-    doc.text('FINOLEX INDUSTRIES LTD.', 14, 58);
-    doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 63);
-    doc.text('Email: fil@finolexind.com', 14, 68);
-    doc.text('GSTIN: 27AAACF2634A1Z9', 14, 73);
-    doc.text('State Code: 27 (Maharashtra)', 14, 78);
-    doc.text('SAC Code: 996601', 14, 83);
+    doc.text('FINOLEX INDUSTRIES LTD.', 14, 75);
+    doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 80);
+    doc.text('Email: fil@finolexind.com', 14, 85);
+    doc.text('GSTIN: 27AAACF2634A1Z9', 14, 90);
+    doc.text('State Code: 27 (Maharashtra)', 14, 95);
+    doc.text('SAC Code: 996601', 14, 100);
 
     // ====== SUBJECT ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 90);
+    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 108);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Order By: ${billData.orderBy}`, 14, 97);
-    doc.text(`Used By: ${billData.usedBy}`, 120, 97);
-    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 103);
+    doc.text(`Order By: ${billData.orderBy}`, 14, 115);
+    doc.text(`Used By: ${billData.usedBy}`, 120, 115);
+    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 120);
 
     // ====== BODY ======
     doc.setFont('helvetica', 'bold');
-    doc.text("Respected Sir/Ma'am,", 14, 113);
+    doc.text("Respected Sir/Ma'am,", 14, 135);
     doc.setFont('helvetica', 'normal');
-    doc.text("With reference to above subject, the vehicle was used for official purpose of the company.", 14, 118);
-    doc.text("Please find enclosed the bill for the same.", 14, 123);
+    doc.text("With reference to above subject, the vehicle was used for official purpose of the company.", 14, 140);
+    doc.text("Please find enclosed the bill for the same.", 14, 145);
 
     // ====== VEHICLE ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel})`, 14, 130);
+    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel})`, 14, 150);
 
     // ====== TABLE ======
     autoTable(doc, {
-      startY: 135,
+      startY: 155,
       head: [['Sr. No.', 'Particular', 'Qty/Days/Hrs/KM', 'Rate (₹)', 'Amount (₹)']],
       body: [
         ['1', 'Package Per Day', billData.packageQty, billData.packageRate, billData.packageQty * billData.packageRate],
@@ -149,14 +149,14 @@ const GenerateBillForm = () => {
     doc.text(`Total Bill Amount (in Words): ${billData.totalInWords}`, 14, finalY);
     doc.setFont('helvetica', 'normal');
     doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 8);
-    doc.text('Bank A/C No: 02001119000023 | IFSC: JPCB0000020', 14, finalY + 15);
-    doc.text('Enclosed: Supporting Documents', 14, finalY + 22);
+    doc.text('Bank A/C No: 02001119000023 | IFSC: JPCB0000020', 14, finalY + 18);
+    doc.text('Enclosed: Supporting Documents', 14, finalY + 28);
 
     // ====== SIGNATURE ======
     doc.setFont('helvetica', 'bold');
     doc.text('Regards,', 200, finalY + 30, { align: 'right' });
     doc.text('STAR ENTERPRISES', 200, finalY + 35, { align: 'right' });
-    doc.text('Authorized Signatory', 200, finalY + 45, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 55, { align: 'right' });
 
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
