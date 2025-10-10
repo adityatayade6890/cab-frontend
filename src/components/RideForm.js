@@ -125,7 +125,7 @@ const GenerateBillForm = () => {
 
     // ====== VEHICLE ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel})`, 14, 150);
+    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel}) | Package: ${billData.selectedPackage}``, 14, 150);
 
     // ====== TABLE ======
     autoTable(doc, {
@@ -154,9 +154,9 @@ const GenerateBillForm = () => {
 
     // ====== SIGNATURE ======
     doc.setFont('helvetica', 'bold');
-    doc.text('Regards,', 200, finalY + 30, { align: 'right' });
-    doc.text('STAR ENTERPRISES', 200, finalY + 35, { align: 'right' });
-    doc.text('Authorized Signatory', 200, finalY + 55, { align: 'right' });
+    doc.text('Regards,', 200, finalY + 28, { align: 'right' });
+    doc.text('STAR ENTERPRISES', 200, finalY + 33, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 42, { align: 'right' });
 
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
