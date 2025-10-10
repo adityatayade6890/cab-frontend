@@ -130,7 +130,7 @@ const GenerateBillForm = () => {
     // ====== TABLE ======
     autoTable(doc, {
       startY: 155,
-      head: [['Sr. No.', 'Particular', 'Qty/Days/Hrs/KM', 'Rate (₹)', 'Amount (₹)']],
+      head: [['Sr. No.', 'Particular', 'Qty/Days/Hrs/KM', 'Rate (Rs.)', 'Amount (Rs.)']],
       body: [
         ['1', 'Package Per Day', billData.packageQty, billData.packageRate, billData.packageQty * billData.packageRate],
         ['2', 'Extra KM', billData.extraKmQty, billData.extraKmRate, billData.extraKmQty * billData.extraKmRate],
