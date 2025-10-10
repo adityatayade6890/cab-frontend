@@ -5,32 +5,16 @@ import axios from 'axios';
 
 // ✅ Package & Car Data
 const packageOptions = {
-  'Dzire Local (80 KM/8 Hr)': {
-    model: 'Dzire',
-    baseKm: 80,
-    baseRate: 1400
-  },
-  'Ertiga Local (80 KM/8 Hr)': {
-    model: 'Ertiga',
-    baseKm: 80,
-    baseRate: 1800
-  },
-  'Dzire Outstation (300 KM/Day)': {
-    model: 'Dzire',
-    baseKm: 300,
-    baseRate: 2200
-  },
-  'Ertiga Outstation (300 KM/Day)': {
-    model: 'Ertiga',
-    baseKm: 300,
-    baseRate: 2600
-  }
+  'Dzire Local (80 KM/8 Hr)': { model: 'Dzire', baseKm: 80, baseRate: 1400 },
+  'Ertiga Local (80 KM/8 Hr)': { model: 'Ertiga', baseKm: 80, baseRate: 1800 },
+  'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 2200 },
+  'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 2600 },
 };
 
-// ✅ Car Details (Reg No.)
+// ✅ Car Details (Reg Numbers)
 const carDetails = {
   Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762'],
-  Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385']
+  Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385'],
 };
 
 const GenerateBillForm = () => {
@@ -52,12 +36,13 @@ const GenerateBillForm = () => {
     driverAllowance: ''
   });
 
+  // Handle Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🧠 When package is selected, auto-fill model and base rate
+  // Auto-fill fields on package selection
   const handlePackageSelect = (e) => {
     const pkgName = e.target.value;
     setForm((prev) => ({
@@ -70,29 +55,10 @@ const GenerateBillForm = () => {
     }));
   };
 
+  // Convert number to words
   const numberToWords = (num) => {
-    const a = [
-      '',
-      'One',
-      'Two',
-      'Three',
-      'Four',
-      'Five',
-      'Six',
-      'Seven',
-      'Eight',
-      'Nine',
-      'Ten',
-      'Eleven',
-      'Twelve',
-      'Thirteen',
-      'Fourteen',
-      'Fifteen',
-      'Sixteen',
-      'Seventeen',
-      'Eighteen',
-      'Nineteen'
-    ];
+    const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
     if ((num = num.toString()).length > 9) return 'overflow';
     const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
@@ -102,64 +68,102 @@ const GenerateBillForm = () => {
     str += n[2] !== '00' ? (a[+n[2]] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
     str += n[3] !== '00' ? (a[+n[3]] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
     str += n[4] !== '0' ? (a[+n[4]] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' Hundred ' : '';
-    str +=
-      n[5] !== '00'
-        ? (str !== '' ? 'and ' : '') + (a[+n[5]] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' '
-        : '';
+    str += n[5] !== '00' ? ((str !== '') ? 'and ' : '') + (a[+n[5]] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
     return str.trim() + ' only';
   };
 
-  // ✅ Generate PDF
+  // ✅ Generate PDF with full professional structure
   const generatePDF = (billData) => {
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 64);
-    doc.text(`DATE: ${billData.invoiceDate}`, 180, 64, { align: 'right' });
+    // ====== HEADER ======
+    /*doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(200, 0, 0);
+    doc.text('STAR ENTERPRISES', 105, 15, { align: 'center' });
 
     doc.setFontSize(10);
-    doc.text('TO,', 14, 70);
+    doc.setTextColor(0);
     doc.setFont('helvetica', 'normal');
-    doc.text('FINOLEX INDUSTRIES LTD.', 14, 75);
-    doc.text('Email: fil@finolexind.com', 14, 80);
+    doc.text('GSTIN NO.: 27ANDPC5898G1ZR', 105, 20, { align: 'center' });
+    doc.text('S.No.70, Vitthal Residency, Flat No.504, Near Ganesh Temple, Bhimashankar Nagar,', 105, 25, { align: 'center' });
+    doc.text('Kiwale, Dehu Road, Pune - 412101', 105, 30, { align: 'center' });
+    doc.text('Email: starenterprises.bc@gmail.com | Contact: 9923739944 / 8484923319', 105, 35, { align: 'center' });
+    doc.line(10, 38, 200, 38); */
 
+    // ====== INVOICE INFO ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`SUB: Bill for the days of ${billData.invoiceDate}`, 14, 90);
+    doc.setFontSize(11);
+    doc.text(`INVOICE NO: ${billData.invoiceNumber}`, 14, 45);
+    doc.text(`DATE: ${billData.invoiceDate}`, 180, 45, { align: 'right' });
+
+    // ====== TO Section ======
+    doc.setFontSize(10);
+    doc.text('TO,', 14, 53);
+    doc.setFont('helvetica', 'normal');
+    doc.text('FINOLEX INDUSTRIES LTD.', 14, 58);
+    doc.text('11th Floor, IndiQube Kode, Survey No 134, Hissa No.1/38, CTS No.2265 to 2273', 14, 63);
+    doc.text('Email: fil@finolexind.com', 14, 68);
+    doc.text('GSTIN: 27AAACF2634A1Z9', 14, 73);
+    doc.text('State Code: 27 (Maharashtra)', 14, 78);
+    doc.text('SAC Code: 996601', 14, 83);
+
+    // ====== SUBJECT ======
+    doc.setFont('helvetica', 'bold');
+    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 90);
     doc.setFont('helvetica', 'normal');
     doc.text(`Order By: ${billData.orderBy}`, 14, 97);
     doc.text(`Used By: ${billData.usedBy}`, 120, 97);
-    doc.text(`Trip: ${billData.tripDetails}`, 14, 103);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Vehicle: ${billData.carModel} (${billData.carRegNo})`, 14, 109);
+    doc.text(`Trip Details: ${billData.tripDetails}`, 14, 103);
 
+    // ====== BODY ======
+    doc.setFont('helvetica', 'bold');
+    doc.text("Respected Sir/Ma'am,", 14, 113);
+    doc.setFont('helvetica', 'normal');
+    doc.text("With reference to above subject, the vehicle was used for official purpose of the company.", 14, 118);
+    doc.text("Please find enclosed the bill for the same.", 14, 123);
+
+    // ====== VEHICLE ======
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Vehicle No: ${billData.carRegNo} (${billData.carModel})`, 14, 130);
+
+    // ====== TABLE ======
     autoTable(doc, {
-      startY: 120,
-      head: [['Sr.', 'Particular', 'Qty', 'Rate ₹', 'Amount ₹']],
+      startY: 135,
+      head: [['Sr. No.', 'Particular', 'Qty/Days/Hrs/KM', 'Rate (₹)', 'Amount (₹)']],
       body: [
-        ['1', 'Package', billData.packageQty, billData.packageRate, billData.packageQty * billData.packageRate],
+        ['1', 'Package Per Day', billData.packageQty, billData.packageRate, billData.packageQty * billData.packageRate],
         ['2', 'Extra KM', billData.extraKmQty, billData.extraKmRate, billData.extraKmQty * billData.extraKmRate],
         ['3', 'Extra Time', billData.extraTimeQty, billData.extraTimeRate, billData.extraTimeQty * billData.extraTimeRate],
         ['4', 'Toll & Parking', '', '', billData.toll],
         ['5', 'Driver Allowance', '', '', billData.driverAllowance],
-        ['6', 'Total Amount', '', '', billData.totalAmount.toFixed(2)]
+        ['', 'Total Bill Amount', '', '', billData.totalAmount.toFixed(2)]
       ],
       theme: 'grid',
       headStyles: { fillColor: [41, 146, 185], textColor: 255, fontStyle: 'bold' },
-      styles: { halign: 'center', fontSize: 10 }
+      styles: { fontSize: 10, cellPadding: 3, halign: 'center' }
     });
 
     const finalY = doc.lastAutoTable.finalY + 10;
     doc.setFont('helvetica', 'bold');
-    doc.text(`Total in Words: ${billData.totalInWords}`, 14, finalY);
-    doc.text('STAR ENTERPRISES', 195, finalY + 20, { align: 'right' });
+    doc.text(`Total Bill Amount (in Words): ${billData.totalInWords}`, 14, finalY);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 8);
+    doc.text('Bank A/C No: 02001119000023 | IFSC: JPCB0000020', 14, finalY + 15);
+    doc.text('Enclosed: Supporting Documents', 14, finalY + 22);
+
+    // ====== SIGNATURE ======
+    doc.setFont('helvetica', 'bold');
+    doc.text('Regards,', 200, finalY + 30, { align: 'right' });
+    doc.text('STAR ENTERPRISES', 200, finalY + 35, { align: 'right' });
+    doc.text('Authorized Signatory', 200, finalY + 45, { align: 'right' });
+
     doc.save(`Bill_${billData.carRegNo}.pdf`);
   };
 
-  // ✅ Handle Bill Generation
+  // ====== Handle Bill Generation ======
   const handleGenerateBill = async () => {
     const { invoiceDate, orderBy, usedBy, tripDetails, carModel, carRegNo } = form;
-
     if (!invoiceDate || !orderBy || !usedBy || !tripDetails || !form.selectedPackage || !carRegNo) {
       alert('⚠️ Please fill all required fields.');
       return;
@@ -191,8 +195,7 @@ const GenerateBillForm = () => {
         data.package_qty * data.package_rate +
         data.extra_km_qty * data.extra_km_rate +
         data.extra_time_qty * data.extra_time_rate +
-        data.toll +
-        data.driver_allowance;
+        data.toll + data.driver_allowance;
 
       const pdfData = {
         ...form,
@@ -212,7 +215,7 @@ const GenerateBillForm = () => {
     <div className="container mt-4">
       <h3 className="text-center">🧾 Generate Bill</h3>
       <div className="card p-4">
-        {/* Top Inputs */}
+        {/* Header Inputs */}
         <div className="row mb-3">
           <div className="col-md-4">
             <label>Date</label>
@@ -228,16 +231,14 @@ const GenerateBillForm = () => {
           </div>
         </div>
 
-        {/* Package + Car */}
+        {/* Package & Vehicle */}
         <div className="row mb-3">
           <div className="col-md-6">
             <label>Package</label>
             <select className="form-control" name="selectedPackage" value={form.selectedPackage} onChange={handlePackageSelect}>
               <option value="">Select Package</option>
-              {Object.keys(packageOptions).map((pkg) => (
-                <option key={pkg} value={pkg}>
-                  {pkg}
-                </option>
+              {Object.keys(packageOptions).map(pkg => (
+                <option key={pkg} value={pkg}>{pkg}</option>
               ))}
             </select>
           </div>
@@ -245,17 +246,14 @@ const GenerateBillForm = () => {
             <label>Vehicle (Reg. No)</label>
             <select className="form-control" name="carRegNo" value={form.carRegNo} onChange={handleChange} disabled={!form.carModel}>
               <option value="">Select Vehicle</option>
-              {form.carModel &&
-                carDetails[form.carModel]?.map((reg) => (
-                  <option key={reg} value={reg}>
-                    {reg}
-                  </option>
-                ))}
+              {form.carModel && carDetails[form.carModel]?.map(reg => (
+                <option key={reg} value={reg}>{reg}</option>
+              ))}
             </select>
           </div>
         </div>
 
-        {/* Trip & Amounts */}
+        {/* Trip Details */}
         <div className="row mb-3">
           <div className="col-md-12">
             <label>Trip Details</label>
@@ -263,7 +261,7 @@ const GenerateBillForm = () => {
           </div>
         </div>
 
-        {/* Financial Inputs */}
+        {/* Charges */}
         <div className="row g-3">
           {[
             ['packageQty', 'Days'],
