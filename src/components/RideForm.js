@@ -141,13 +141,13 @@ const GenerateBillForm = () => {
       ],
       theme: 'grid',
       headStyles: { fillColor: [41, 146, 185], textColor: 255, fontStyle: 'bold' },
-      styles: { fontSize: 10, cellPadding: 3, halign: 'center' }
+      styles: { fontSize: 12, cellPadding: 3, halign: 'center', fontStyle: 'bold' }
     });
 
     const finalY = doc.lastAutoTable.finalY + 10;
     doc.setFont('helvetica', 'bold');
     doc.text(`Total Bill Amount (in Words): ${billData.totalInWords}`, 14, finalY);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('helvetica', 'bold');
     doc.text('Kindly requested to you, please release our payment at the earliest.', 14, finalY + 8);
     doc.text('Bank A/C No: 02001119000023 | IFSC: JPCB0000020', 14, finalY + 18);
     doc.text('Enclosed: Supporting Documents', 14, finalY + 28);
