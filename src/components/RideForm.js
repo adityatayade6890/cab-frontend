@@ -13,7 +13,7 @@ const packageOptions = {
 
 // ✅ Car Details (Reg Numbers)
 const carDetails = {
-  Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762'],
+  Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762', 'MH14LL6227'],
   Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385'],
 };
 
