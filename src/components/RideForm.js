@@ -9,12 +9,16 @@ const packageOptions = {
   'Ertiga Local (80 KM/8 Hr)': { model: 'Ertiga', baseKm: 80, baseRate: 2600 },
   'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 4200 },
   'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 4500 },
+  'Toyota Local (80 KM/8 Hr)': { model: 'Innova', baseKm: 80, baseRate: 3500 },
+  'Toyota Local (300 KM/Day)': { model: 'Innova', baseKm: 300, baseRate: 6000 },
+  
 };
 
 // ✅ Car Details (Reg Numbers)
 const carDetails = {
-  Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762', 'MH14LL6227'],
+  Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762', 'MH14LL6227', 'MH14LL7500'],
   Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385'],
+  Innova: ['MH14LL0444'],
 };
 
 const GenerateBillForm = () => {
