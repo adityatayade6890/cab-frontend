@@ -10,7 +10,7 @@ const packageOptions = {
   'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 4200 },
   'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 4500 },
   'Toyota Local (80 KM/8 Hr)': { model: 'Innova', baseKm: 80, baseRate: 3500 },
-  'Toyota Local (300 KM/Day)': { model: 'Innova', baseKm: 300, baseRate: 6000 },
+  'Toyota Outstation (300 KM/Day)': { model: 'Innova', baseKm: 300, baseRate: 6000 },
   
 };
 
