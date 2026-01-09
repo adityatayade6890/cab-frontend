@@ -115,7 +115,7 @@ const GenerateBillForm = () => {
 
     // ====== SUBJECT ======
     doc.setFont('helvetica', 'bold');
-    doc.text(`SUB: Submission of bill for the days of – ${billData.invoiceDate}`, 14, 108);
+    doc.text(`SUB: Submission of bill for the days of – ${billData.useDate}`, 14, 108);
     doc.setFont('helvetica', 'normal');
     doc.text(`Order By: ${billData.orderBy}`, 14, 115);
     doc.text(`Used By: ${billData.usedBy}`, 120, 115);
