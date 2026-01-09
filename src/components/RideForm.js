@@ -169,8 +169,8 @@ const GenerateBillForm = () => {
 
   // ====== Handle Bill Generation ======
   const handleGenerateBill = async () => {
-    const { invoiceDate, orderBy, usedBy, tripDetails, carModel, carRegNo } = form;
-    if (!invoiceDate || !orderBy || !usedBy || !tripDetails || !form.selectedPackage || !carRegNo) {
+    const { invoiceDate, useDate, orderBy, usedBy, tripDetails, carModel, carRegNo } = form;
+    if (!invoiceDate || !useDate || !orderBy || !usedBy || !tripDetails || !form.selectedPackage || !carRegNo) {
       alert('⚠️ Please fill all required fields.');
       return;
     }
