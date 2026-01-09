@@ -9,21 +9,22 @@ const packageOptions = {
   'Ertiga Local (80 KM/8 Hr)': { model: 'Ertiga', baseKm: 80, baseRate: 2600 },
   'Dzire Outstation (300 KM/Day)': { model: 'Dzire', baseKm: 300, baseRate: 4200 },
   'Ertiga Outstation (300 KM/Day)': { model: 'Ertiga', baseKm: 300, baseRate: 4500 },
-  'Toyota Local (80 KM/8 Hr)': { model: 'Innova', baseKm: 80, baseRate: 3500 },
-  'Toyota Outstation (300 KM/Day)': { model: 'Innova', baseKm: 300, baseRate: 6000 },
+  'Innova Local (80 KM/8 Hr)': { model: 'Innova', baseKm: 80, baseRate: 3500 },
+  'Innova Outstation (300 KM/Day)': { model: 'Innova', baseKm: 300, baseRate: 6000 },
   
 };
 
 // ✅ Car Details (Reg Numbers)
 const carDetails = {
   Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762', 'MH14LL6227', 'MH14LL7500'],
-  Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385'],
+  Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385', 'MH14LE4071'],
   Innova: ['MH14LL0444'],
 };
 
 const GenerateBillForm = () => {
   const [form, setForm] = useState({
     invoiceDate: '',
+    useDate: '',
     orderBy: '',
     usedBy: '',
     tripDetails: '',
@@ -119,6 +120,7 @@ const GenerateBillForm = () => {
     doc.text(`Order By: ${billData.orderBy}`, 14, 115);
     doc.text(`Used By: ${billData.usedBy}`, 120, 115);
     doc.text(`Trip Details: ${billData.tripDetails}`, 14, 120);
+    doc.text(`Use Date: ${billData.useDate}`, 14, 125);
 
     // ====== BODY ======
     doc.setFont('helvetica', 'bold');
@@ -176,6 +178,7 @@ const GenerateBillForm = () => {
     const carDisplayString = `${carModel} ${carRegNo}`;
     const data = {
       invoice_date: invoiceDate,
+      use_date: useDate,
       order_by: orderBy,
       used_by: usedBy,
       trip_details: tripDetails,
@@ -224,6 +227,10 @@ const GenerateBillForm = () => {
           <div className="col-md-4">
             <label>Date</label>
             <input type="date" name="invoiceDate" className="form-control" value={form.invoiceDate} onChange={handleChange} />
+          </div>
+          <div className="col-md-4">
+           <label>Use Date</label>
+           <input type="date" name="useDate" className="form-control" value={form.useDate} onChange={handleChange} />
           </div>
           <div className="col-md-4">
             <label>Order By</label>
