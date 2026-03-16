@@ -18,7 +18,7 @@ const packageOptions = {
 const carDetails = {
   Dzire: ['MH14LB8443', 'MH14LB6365', 'MH14KA9157', 'MH14LB9762', 'MH14LL6227', 'MH14LL7500'],
   Ertiga: ['MH14KQ9461', 'MH09GA2901', 'MH14LF7494', 'MH14LL5385', 'MH14LE4071'],
-  Innova: ['MH14LL0444', 'MH14LB9055'],
+  Innova: ['MH14LL0444', 'MH14LB9055', 'MH14HG0999'],
 };
 
 const GenerateBillForm = () => {
