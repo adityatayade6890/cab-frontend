@@ -89,7 +89,7 @@ const companyMaster = {
   "My Lab": {
     name: "MY LAB DISCOVERY SOLUTIONS PVT LTD.",
     gst: "27AAACF2634A1Z9",
-    email: "",
+    email: "Email ID",
     state: "27 (Maharashtra)",
     address: "99B Nangargaon Industries Estate Lonavala",
     sac: "996601",
@@ -320,7 +320,7 @@ const generatePDF = (billData) => {
   const address = doc.splitTextToSize( company.address, 170);
   doc.text(address, 14, 80);
   const addressHeight = address.length * 5;  
-  const companyY = 82 + addressHeight + 2;
+  const companyY = 80 + addressHeight + 2;
 
   if (company.email)
     doc.text(`Email : ${company.email}`, 14, companyY);
@@ -344,7 +344,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : Submission of bill for ${billData.useDate}`,
       14,
-      105
+      115
     );
 
   } else {
@@ -352,7 +352,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : ${billData.billingType} Transport Bill`,
       14,
-      105
+      115
     );
 
   }
@@ -362,19 +362,19 @@ const generatePDF = (billData) => {
   doc.text(
     `Order By : ${billData.orderBy}`,
     14,
-    115
+    125
   );
 
   doc.text(
     `Used By : ${billData.usedBy}`,
     120,
-    115
+    125
   );
   
   const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 125);
+  doc.text(trip, 14, 135);
   const tripHeight = trip.length * 5;  
-  const nextY = 125 + tripHeight + 0;
+  const nextY = 135 + tripHeight + 3;
 
   if (billData.billingType === "Daily") {
 
@@ -412,7 +412,7 @@ const generatePDF = (billData) => {
   doc.text(
     "Please release our payment at the earliest.",
     14,
-    bodyY + 14
+    bodyY + 12
   );
 
   // ==========================================
@@ -420,11 +420,11 @@ const generatePDF = (billData) => {
   // ==========================================
 
   doc.setFont("helvetica", "bold");
-  const vehicleY = bodyY + 10
+  const vehicleY = bodyY + 6
   doc.text(
     `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
     14,
-    vehicleY + 10
+    vehicleY + 6
   );
 
   const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
@@ -432,7 +432,7 @@ const generatePDF = (billData) => {
   doc.text(
     `Package : ${packageLabel}`,
     14,
-    packageY
+    packageY + 5
   );
 
   const billingY = packageY + 5
@@ -441,7 +441,7 @@ const generatePDF = (billData) => {
     14,
     billingY 
   );
-  const tableStartY = billingY + 5;
+  const tableStartY = billingY + 10;
 
   // ==========================================
   // TABLE
@@ -557,7 +557,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 5
+    finalY + 10
 
   );
 
@@ -567,7 +567,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 10
+    finalY + 15
 
   );
 
@@ -577,7 +577,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 15
+    finalY + 20
 
   );
 
@@ -587,7 +587,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 20
+    finalY + 25
 
   );
 
@@ -601,7 +601,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 10,
+    finalY + 15,
 
     { align:"right" }
 
@@ -613,7 +613,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 15,
+    finalY + 20,
 
     { align:"right" }
 
@@ -625,7 +625,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 30,
+    finalY + 35,
 
     { align:"right" }
 
