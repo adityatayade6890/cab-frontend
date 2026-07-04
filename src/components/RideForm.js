@@ -320,7 +320,7 @@ const generatePDF = (billData) => {
   const address = doc.splitTextToSize( company.address, 170);
   doc.text(address, 14, 40);
   const addressHeight = address.length * 5;  
-  let companyY = 40 + addressHeight + 2;
+  const companyY = 40 + addressHeight + 2;
 
   if (company.email)
     doc.text(`Email : ${company.email}`, 14, companyY);
@@ -371,7 +371,7 @@ const generatePDF = (billData) => {
     82
   );
   
-  const trip= doc.splitTextToSize( billData.tripDetails, 170);
+  const trip = doc.splitTextToSize( billData.tripDetails, 170);
   doc.text(trip, 14, 88);
   const tripHeight = trip.length * 5;  
   const nextY = 88 + tripHeight + 4;
@@ -1151,4 +1151,5 @@ const handleGenerateBill = async () => {
 
   </div>
 );
+};
 export default GenerateBillForm;
