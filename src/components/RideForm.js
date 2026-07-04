@@ -424,7 +424,7 @@ const generatePDF = (billData) => {
   doc.text(
     `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
     14,
-    vehicleY + 10
+    vehicleY + 13
   );
 
   const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
@@ -432,16 +432,16 @@ const generatePDF = (billData) => {
   doc.text(
     `Package : ${packageLabel}`,
     14,
-    packageY + 7
+    packageY + 10
   );
 
-  const billingY = packageY + 10
+  const billingY = packageY + 13
   doc.text(
     `Billing Type : ${billData.billingType}`,
     14,
     billingY 
   );
-  const tableStartY = billingY + 10;
+  const tableStartY = billingY + 12;
 
   // ==========================================
   // TABLE
