@@ -285,8 +285,8 @@ const RideHistory = () => {
             })}
          </tbody>
         </table>
-      </div>   {/* closes card */}
-    </div>     {/* closes outer container */}
+      </div>  
+    </div>     
   );
 };
 
