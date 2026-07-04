@@ -320,7 +320,7 @@ const generatePDF = (billData) => {
   const address = doc.splitTextToSize( company.address, 170);
   doc.text(address, 14, 80);
   const addressHeight = address.length * 5;  
-  const companyY = 80 + addressHeight + 2;
+  const companyY = 82 + addressHeight + 2;
 
   if (company.email)
     doc.text(`Email : ${company.email}`, 14, companyY);
@@ -344,7 +344,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : Submission of bill for ${billData.useDate}`,
       14,
-      120
+      105
     );
 
   } else {
@@ -352,7 +352,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : ${billData.billingType} Transport Bill`,
       14,
-      120
+      105
     );
 
   }
@@ -362,19 +362,19 @@ const generatePDF = (billData) => {
   doc.text(
     `Order By : ${billData.orderBy}`,
     14,
-    130
+    115
   );
 
   doc.text(
     `Used By : ${billData.usedBy}`,
     120,
-    130
+    115
   );
   
   const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 130);
+  doc.text(trip, 14, 125);
   const tripHeight = trip.length * 5;  
-  const nextY = 130 + tripHeight + 0;
+  const nextY = 125 + tripHeight + 0;
 
   if (billData.billingType === "Daily") {
 
@@ -406,13 +406,13 @@ const generatePDF = (billData) => {
   doc.text(
     "With reference to the above subject, kindly find enclosed our transport bill.",
     14,
-    bodyY + 5
+    bodyY + 7
   );
   
   doc.text(
     "Please release our payment at the earliest.",
     14,
-    bodyY + 10
+    bodyY + 14
   );
 
   // ==========================================
@@ -424,7 +424,7 @@ const generatePDF = (billData) => {
   doc.text(
     `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
     14,
-    vehicleY 
+    vehicleY + 10
   );
 
   const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
@@ -432,7 +432,7 @@ const generatePDF = (billData) => {
   doc.text(
     `Package : ${packageLabel}`,
     14,
-    packageY 
+    packageY
   );
 
   const billingY = packageY + 5
