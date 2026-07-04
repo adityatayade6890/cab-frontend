@@ -86,32 +86,32 @@ const companyMaster = {
     sac: "996601",
   },
 
-  "Company B": {
-    name: "COMPANY B",
-    gst: "",
-    state: "",
-    email: "",
-    address: "",
+  "My Lab": {
+    name: "MY LAB DISCOVERY SOLUTIONS PVT LTD.",
+    gst: "27AAACF2634A1Z9",
+    email: "Email ID",
+    state: "27 (Maharashtra)",
+    address: "99B Nangargaon Industries Estate Lonavala",
     sac: "996601",
   },
 
-  "Company C": {
-    name: "COMPANY C",
-    gst: "",
-    state: "",
-    email: "",
-    address: "",
-    sac: "996601",
-  },
+  // "Company C": {
+  //   name: "COMPANY C",
+  //   gst: "",
+  //   state: "",
+  //   email: "",
+  //   address: "",
+  //   sac: "996601",
+  // },
 
-  "Company D": {
-    name: "COMPANY D",
-    gst: "",
-    state: "",
-    email: "",
-    address: "",
-    sac: "996601",
-  },
+  // "Company D": {
+  //   name: "COMPANY D",
+  //   gst: "",
+  //   state: "",
+  //   email: "",
+  //   address: "",
+  //   sac: "996601",
+  // },
 };
 
 // =============================
@@ -294,13 +294,13 @@ const generatePDF = (billData) => {
   doc.text(
     `INVOICE NO : ${billData.invoiceNumber}`,
     14,
-    18
+    64
   );
 
   doc.text(
     `DATE : ${billData.invoiceDate}`,
     190,
-    18,
+    64,
     { align: "right" }
   );
 
@@ -310,17 +310,17 @@ const generatePDF = (billData) => {
 
   doc.setFontSize(10);
 
-  doc.text("TO,", 14, 28);
+  doc.text("TO,", 14, 70);
 
   doc.setFont("helvetica", "bold");
-  doc.text(company.name, 14, 34);
+  doc.text(company.name, 14, 75);
 
   doc.setFont("helvetica", "normal");
 
   const address = doc.splitTextToSize( company.address, 170);
-  doc.text(address, 14, 40);
+  doc.text(address, 14, 80);
   const addressHeight = address.length * 5;  
-  const companyY = 40 + addressHeight + 2;
+  const companyY = 80 + addressHeight + 2;
 
   if (company.email)
     doc.text(`Email : ${company.email}`, 14, companyY);
@@ -344,7 +344,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : Submission of bill for ${billData.useDate}`,
       14,
-      74
+      110
     );
 
   } else {
@@ -352,7 +352,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : ${billData.billingType} Transport Bill`,
       14,
-      74
+      110
     );
 
   }
@@ -362,19 +362,19 @@ const generatePDF = (billData) => {
   doc.text(
     `Order By : ${billData.orderBy}`,
     14,
-    82
+    115
   );
 
   doc.text(
     `Used By : ${billData.usedBy}`,
     120,
-    82
+    115
   );
   
   const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 88);
+  doc.text(trip, 14, 120);
   const tripHeight = trip.length * 5;  
-  const nextY = 88 + tripHeight + 4;
+  const nextY = 120 + tripHeight + 4;
 
   if (billData.billingType === "Daily") {
 
