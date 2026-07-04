@@ -294,13 +294,13 @@ const generatePDF = (billData) => {
   doc.text(
     `INVOICE NO : ${billData.invoiceNumber}`,
     14,
-    64
+    60
   );
 
   doc.text(
     `DATE : ${billData.invoiceDate}`,
     190,
-    64,
+    60,
     { align: "right" }
   );
 
@@ -352,7 +352,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : ${billData.billingType} Transport Bill`,
       14,
-      110
+      120
     );
 
   }
@@ -362,19 +362,19 @@ const generatePDF = (billData) => {
   doc.text(
     `Order By : ${billData.orderBy}`,
     14,
-    115
+    130
   );
 
   doc.text(
     `Used By : ${billData.usedBy}`,
     120,
-    115
+    130
   );
   
   const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 120);
+  doc.text(trip, 14, 140);
   const tripHeight = trip.length * 5;  
-  const nextY = 120 + tripHeight + 4;
+  const nextY = 140 + tripHeight + 0;
 
   if (billData.billingType === "Daily") {
 
@@ -399,20 +399,20 @@ const generatePDF = (billData) => {
 
   doc.setFont("helvetica", "bold");
 
-  const bodyY = nextY + 12;
+  const bodyY = nextY + 7;
 
   doc.text("Respected Sir/Madam,", 14, bodyY);
   
   doc.text(
     "With reference to the above subject, kindly find enclosed our transport bill.",
     14,
-    bodyY + 7
+    bodyY + 5
   );
   
   doc.text(
     "Please release our payment at the earliest.",
     14,
-    bodyY + 13
+    bodyY + 9
   );
 
   // ==========================================
@@ -420,7 +420,7 @@ const generatePDF = (billData) => {
   // ==========================================
 
   doc.setFont("helvetica", "bold");
-  const vehicleY = bodyY + 10
+  const vehicleY = bodyY + 15
   doc.text(
     `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
     14,
@@ -428,7 +428,7 @@ const generatePDF = (billData) => {
   );
 
   const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
-  const packageY = vehicleY + 5
+  const packageY = vehicleY + 10
   doc.text(
     `Package : ${packageLabel}`,
     14,
