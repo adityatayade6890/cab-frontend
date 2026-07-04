@@ -130,243 +130,103 @@ const RideHistory = () => {
   return (
     <div>
         <h3 className="text-center mb-3">Ride History</h3>
-  
         <div className="card p-3 mb-4">
           <div className="row g-3">
-        <div className="col-md-3">
+            <div className="col-md-3">
+              <label>Invoice No</label>
+                <input className="form-control" name="invoice_number" value={filters.invoice_number}  onChange={handleFilterChange}/>
+            </div>
+          
+            <div className="col-md-3">
+              <label>Company</label>
+                <select className="form-select" name="company_name" value={filters.company_name} onChange={handleFilterChange} >
+                   <option value="">All</option>
+                   <option value="Finolex Industries"> Finolex Industries </option>
+                   <option value="Company B"> Company B </option>
+                   <option value="Company C"> Company C </option>
+                   <option value="Company D"> Company D </option>
+                </select>
+            </div>
         
-        <label>Invoice No</label>
+            <div className="col-md-3">
+              <label>Vehicle</label>
+                <input className="form-control" name="vehicle" value={filters.vehicle} onChange={handleFilterChange} />
+            </div>
         
-        <input
+            <div className="col-md-3">
+              <label>Billing</label>
+                <select className="form-select" name="billing_type" value={filters.billing_type} onChange={handleFilterChange} >
+                  <option value="">All</option>
+                  <option>Daily</option>
+                  <option>Weekly</option>
+                  <option>Bi-Monthly</option>
+                  <option>Monthly</option>
+                </select>
+            </div>
         
-        className="form-control"
+            <div className="col-md-3">
+              <label>Payment</label>
+                <select className="form-select" name="payment_status" value={filters.payment_status} onChange={handleFilterChange} >
+                  <option value="">All</option>
+                  <option>Pending</option>
+                  <option>Paid</option>  
+                </select>
+            </div>
+            
+            <div className="col-md-3">
+              <label>From Date</label>      
+                <input type="date" className="form-control" name="from_date" value={filters.from_date} onChange={handleFilterChange} />
+            </div>
         
-        name="invoice_number"
+            <div className="col-md-3">
+             <label>To Date</label>
+               <input type="date" className="form-control" name="to_date" value={filters.to_date}  onChange={handleFilterChange} />
+            </div>
         
-        value={filters.invoice_number}
+            <div className="col-md-3 d-flex align-items-end">
+              <button className="btn btn-primary w-100" onClick={applyFilters} > 🔍 Search </button>
+            </div>
         
-        onChange={handleFilterChange}
-        
-        />
-        
+            <div className="col-md-3 d-flex align-items-end">
+            
+              <button
+              
+                className="btn btn-secondary w-100"
+                
+                onClick={async () => {
+                  const resetFilters = {
+                    invoice_number: "",
+                    company_name: "",
+                    vehicle: "",
+                    billing_type: "",
+                    payment_status: "",
+                    from_date: "",
+                    to_date: ""
+                  };
+                
+                  setFilters(resetFilters);
+                
+                  try {
+                    const res = await axios.get(`${BASE_URL}/api/bills`, {
+                      params: resetFilters
+                    });
+                
+                    setRides(res.data);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                
+                  >
+                
+                Reset
+              
+              </button>
+              
+            </div>
+
         </div>
-        
-        <div className="col-md-3">
-        
-        <label>Company</label>
-        
-        <select
-        
-        className="form-select"
-        
-        name="company_name"
-        
-        value={filters.company_name}
-        
-        onChange={handleFilterChange}
-        
-        >
-        
-        <option value="">All</option>
-        
-        <option value="Finolex Industries">
-        
-        Finolex Industries
-        
-        </option>
-        
-        <option value="Company B">
-        
-        Company B
-        
-        </option>
-        
-        <option value="Company C">
-        
-        Company C
-        
-        </option>
-        
-        <option value="Company D">
-        
-        Company D
-        
-        </option>
-        
-        </select>
-        
-        </div>
-        
-        <div className="col-md-3">
-        
-        <label>Vehicle</label>
-        
-        <input
-        
-        className="form-control"
-        
-        name="vehicle"
-        
-        value={filters.vehicle}
-        
-        onChange={handleFilterChange}
-        
-        />
-        
-        </div>
-        
-        <div className="col-md-3">
-        
-        <label>Billing</label>
-        
-        <select
-        
-        className="form-select"
-        
-        name="billing_type"
-        
-        value={filters.billing_type}
-        
-        onChange={handleFilterChange}
-        
-        >
-        
-        <option value="">All</option>
-        
-        <option>Daily</option>
-        
-        <option>Weekly</option>
-        
-        <option>Bi-Monthly</option>
-        
-        <option>Monthly</option>
-        
-        </select>
-        
-        </div>
-        
-        <div className="col-md-3">
-        
-        <label>Payment</label>
-        
-        <select
-        
-        className="form-select"
-        
-        name="payment_status"
-        
-        value={filters.payment_status}
-        
-        onChange={handleFilterChange}
-        
-        >
-        
-        <option value="">All</option>
-        
-        <option>Pending</option>
-        
-        <option>Paid</option>
-        
-        </select>
-        
-        </div>
-        
-        <div className="col-md-3">
-        
-        <label>From Date</label>
-        
-        <input
-        
-        type="date"
-        
-        className="form-control"
-        
-        name="from_date"
-        
-        value={filters.from_date}
-        
-        onChange={handleFilterChange}
-        
-        />
-        
-        </div>
-        
-        <div className="col-md-3">
-        
-        <label>To Date</label>
-        
-        <input
-        
-        type="date"
-        
-        className="form-control"
-        
-        name="to_date"
-        
-        value={filters.to_date}
-        
-        onChange={handleFilterChange}
-        
-        />
-        
-        </div>
-        
-        <div className="col-md-3 d-flex align-items-end">
-        
-        <button
-        
-        className="btn btn-primary w-100"
-        
-        onClick={applyFilters}
-        
-        >
-        
-        🔍 Search
-        
-        </button>
-        
-        </div>
-        
-        <div className="col-md-3 d-flex align-items-end">
-        
-        <button
-        
-        className="btn btn-secondary w-100"
-        
-        onClick={async () => {
-          const resetFilters = {
-            invoice_number: "",
-            company_name: "",
-            vehicle: "",
-            billing_type: "",
-            payment_status: "",
-            from_date: "",
-            to_date: ""
-          };
-        
-          setFilters(resetFilters);
-        
-          try {
-            const res = await axios.get(`${BASE_URL}/api/bills`, {
-              params: resetFilters
-            });
-        
-            setRides(res.data);
-          } catch (err) {
-            console.error(err);
-          }
-        }}
-        
-          >
-        
-        Reset
-        
-        </button>
-        
-        </div>
-        
-        </div>
-  
+          
         <table className="table table-bordered table-hover">
           <thead className="table-dark">
             <tr>
@@ -392,30 +252,18 @@ const RideHistory = () => {
             
               return (
                 <tr key={bill.id}>
-            
                   <td>{index + 1}</td>
-            
                   <td>
                     <b>{bill.invoice_number}</b>
                   </td>
-            
                   <td>{bill.company_name}</td>
-            
                   <td>{bill.car}</td>
-            
                   <td>{bill.billing_type}</td>
-            
                   <td>₹{bill.total}</td>
             
                   <td>
                     <span
-                      className={`badge rounded-pill ${
-                        paymentStatus === "Paid"
-                          ? "bg-success"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {paymentStatus}
+                      className={`badge rounded-pill ${ paymentStatus === "Paid" ? "bg-success" : "bg-danger" }`} >  {paymentStatus}
                     </span>
                   </td>
             
@@ -425,34 +273,20 @@ const RideHistory = () => {
             
                   <td>
                     <div className="d-flex gap-2">
-            
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => downloadInvoice(bill)}
-                      >
-                        📄
-                      </button>
-            
-                      <button
-                        className={
-                          paymentStatus === "Paid"
-                            ? "btn btn-warning btn-sm"
-                            : "btn btn-success btn-sm"
-                        }
-                        onClick={() => markPaid(bill.id)}
-                      >
-                        {paymentStatus === "Paid" ? "Undo" : "Paid"}
-                      </button>
-            
+                      <button className="btn btn-primary btn-sm" onClick={() => downloadInvoice(bill)} > 📄 </button>
+                        <button className={ paymentStatus === "Paid" ? "btn btn-warning btn-sm" : "btn btn-success btn-sm" } onClick={() => markPaid(bill.id)} >
+                          {paymentStatus === "Paid" ? "Undo" : "Paid"}
+                        </button>
                     </div>
                   </td>
-            
                 </tr>
+
               );
             })}
-          </tbody>
+         </tbody>
         </table>
-    </div>
+      </div>   {/* closes card */}
+    </div>     {/* closes outer container */}
   );
 };
 
