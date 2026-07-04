@@ -89,7 +89,7 @@ const companyMaster = {
   "My Lab": {
     name: "MY LAB DISCOVERY SOLUTIONS PVT LTD.",
     gst: "27AAACF2634A1Z9",
-    email: "Email ID",
+    email: "",
     state: "27 (Maharashtra)",
     address: "99B Nangargaon Industries Estate Lonavala",
     sac: "996601",
@@ -344,7 +344,7 @@ const generatePDF = (billData) => {
     doc.text(
       `SUB : Submission of bill for ${billData.useDate}`,
       14,
-      110
+      120
     );
 
   } else {
@@ -372,9 +372,9 @@ const generatePDF = (billData) => {
   );
   
   const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 140);
+  doc.text(trip, 14, 130);
   const tripHeight = trip.length * 5;  
-  const nextY = 140 + tripHeight + 0;
+  const nextY = 130 + tripHeight + 0;
 
   if (billData.billingType === "Daily") {
 
@@ -412,7 +412,7 @@ const generatePDF = (billData) => {
   doc.text(
     "Please release our payment at the earliest.",
     14,
-    bodyY + 9
+    bodyY + 10
   );
 
   // ==========================================
@@ -420,11 +420,11 @@ const generatePDF = (billData) => {
   // ==========================================
 
   doc.setFont("helvetica", "bold");
-  const vehicleY = bodyY + 15
+  const vehicleY = bodyY + 10
   doc.text(
     `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
     14,
-    vehicleY + 5
+    vehicleY 
   );
 
   const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
@@ -432,7 +432,7 @@ const generatePDF = (billData) => {
   doc.text(
     `Package : ${packageLabel}`,
     14,
-    packageY + 5
+    packageY 
   );
 
   const billingY = packageY + 5
@@ -441,7 +441,7 @@ const generatePDF = (billData) => {
     14,
     billingY 
   );
-  const tableStartY = billingY + 10;
+  const tableStartY = billingY + 5;
 
   // ==========================================
   // TABLE
@@ -535,7 +535,7 @@ const generatePDF = (billData) => {
 
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
+  const finalY = doc.lastAutoTable.finalY + 5;
 
   // ==========================================
   // AMOUNT IN WORDS
@@ -557,7 +557,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 10
+    finalY + 5
 
   );
 
@@ -567,7 +567,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 18
+    finalY + 10
 
   );
 
@@ -577,7 +577,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 24
+    finalY + 15
 
   );
 
@@ -587,7 +587,7 @@ const generatePDF = (billData) => {
 
     14,
 
-    finalY + 32
+    finalY + 20
 
   );
 
@@ -601,7 +601,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 18,
+    finalY + 10,
 
     { align:"right" }
 
@@ -613,7 +613,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 26,
+    finalY + 15,
 
     { align:"right" }
 
@@ -625,7 +625,7 @@ const generatePDF = (billData) => {
 
     190,
 
-    finalY + 42,
+    finalY + 30,
 
     { align:"right" }
 
