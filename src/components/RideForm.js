@@ -446,6 +446,7 @@ const generatePDF = (billData) => {
   // ==========================================
   // TABLE
   // ==========================================
+  doc.setFont("helvetica","bold")
 
   autoTable(doc, {
 
@@ -529,7 +530,8 @@ const generatePDF = (billData) => {
 
       cellPadding:3,
 
-      halign:"center"
+      halign:"center",
+      
 
     }
 
