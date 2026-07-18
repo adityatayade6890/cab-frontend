@@ -281,7 +281,11 @@ const GenerateBillForm = () => {
 const generatePDF = (billData) => {
 
   const company = companyMaster[billData.companyName] || companyMaster["Finolex Industries"];
+  
+  console.log("billData:", billData);
+  console.log("company:", company);
 
+  alert(JSON.stringify(company, null, 2));
   const doc = new jsPDF("p", "mm", "a4");
 
   // ==========================================
