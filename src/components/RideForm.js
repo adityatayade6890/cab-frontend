@@ -531,8 +531,8 @@ const generatePDF = (billData) => {
       cellPadding:3,
 
       halign:"center",
+      fontStyle:"bold",
       
-
     }
 
   });
