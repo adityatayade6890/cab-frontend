@@ -303,150 +303,166 @@ const generatePDF = (billData) => {
     60,
     { align: "right" }
   );
+ // ==========================================
+ // TO
+ // ==========================================
 
-  // ==========================================
-  // TO
-  // ==========================================
+ doc.setFontSize(10);
 
-  doc.setFontSize(10);
+ let currentY = 70;
 
-  doc.text("TO,", 14, 70);
+ doc.setFont("helvetica", "bold");
+ doc.text("TO,", 14, currentY);
+ 
+ currentY += 5;
 
-  doc.setFont("helvetica", "bold");
-  doc.text(company.name, 14, 75);
+ doc.text(company.name, 14, currentY);
 
-  doc.setFont("helvetica", "normal");
+ currentY += 5;
 
-  const address = doc.splitTextToSize( company.address, 170);
-  doc.text(address, 14, 80);
-  const addressHeight = address.length * 5;  
-  const companyY = 80 + addressHeight + 2;
+ doc.setFont("helvetica", "normal");
 
-  if (company.email)
-    doc.text(`Email : ${company.email}`, 14, companyY);
+ const address = doc.splitTextToSize(company.address, 170);
+ doc.text(address, 14, currentY);
 
-  if (company.gst)
-      doc.text(`GSTIN : ${company.gst}`, 14, companyY + 6);
-  
-  if (company.state)
-      doc.text(`State Code : ${company.state}`, 14, companyY + 12);
-  
-  doc.text(`SAC Code : ${company.sac}`, 14, companyY + 18);
+ currentY += address.length * 5 + 3;
 
-  // ==========================================
-  // SUBJECT
-  // ==========================================
+ if (company.email) {
+   doc.text(`Email : ${company.email}`, 14, currentY);
+   currentY += 6;
+ }
 
-  doc.setFont("helvetica", "bold");
+ if (company.gst) {
+   doc.text(`GSTIN : ${company.gst}`, 14, currentY);
+   currentY += 6;
+ }
 
-  if (billData.billingType === "Daily") {
+ if (company.state) {
+   doc.text(`State Code : ${company.state}`, 14, currentY);
+   currentY += 6;
+ }
 
-    doc.text(
-      `SUB : Submission of bill for ${billData.useDate}`,
-      14,
-      115
-    );
+ if (company.sac) {
+   doc.text(`SAC Code : ${company.sac}`, 14, currentY);
+   currentY += 8;
+ }
 
-  } else {
+// ==========================================
+// SUBJECT
+// ==========================================
 
-    doc.text(
-      `SUB : ${billData.billingType} Transport Bill`,
-      14,
-      115
-    );
+ doc.setFont("helvetica", "bold");
 
-  }
+ if (billData.billingType === "Daily") {
+   doc.text(
+     `SUB : Submission of bill for ${billData.useDate}`,
+     14,
+     currentY
+   ); 
+ } else {
+   doc.text(
+     `SUB : ${billData.billingType} Transport Bill`,
+     14,
+     currentY
+   );
+ }
+ 
+ currentY += 10;
 
-  doc.setFont("helvetica", "normal");
+ doc.setFont("helvetica", "normal");
 
-  doc.text(
-    `Order By : ${billData.orderBy}`,
-    14,
-    125
-  );
+ doc.text(
+   `Order By : ${billData.orderBy}`,
+   14,
+   currentY
+ );
 
-  doc.text(
-    `Used By : ${billData.usedBy}`,
-    120,
-    125
-  );
-  
-  const trip = doc.splitTextToSize( billData.tripDetails, 170);
-  doc.text(trip, 14, 135);
-  const tripHeight = trip.length * 5;  
-  const nextY = 135 + tripHeight + 3;
+ doc.text(
+   `Used By : ${billData.usedBy}`,
+   120,
+   currentY
+ );
 
-  if (billData.billingType === "Daily") {
+ currentY += 10;
 
-    doc.text(
-      `Use Date : ${billData.useDate}`,
-      14, nextY
-    );
+ const trip = doc.splitTextToSize(
+   billData.tripDetails,
+   170
+ );
 
-  } else {
+ doc.text(trip, 14, currentY);
 
-    doc.text(
-      `Billing Period : ${billData.fromDate}  To  ${billData.toDate}`,
-      14,
-      nextY
-    );
+ currentY += trip.length * 5 + 5;
 
-  }
+ if (billData.billingType === "Daily") {
+   doc.text(
+     `Use Date : ${billData.useDate}`,
+     14,
+     currentY
+   );
+ } else {
+   doc.text(
+     `Billing Period : ${billData.fromDate} To ${billData.toDate}`,
+     14,
+     currentY
+   );
+ }
 
-  // ==========================================
-  // BODY
-  // ==========================================
+ currentY += 7;
 
-  doc.setFont("helvetica", "bold");
+// ==========================================
+// BODY
+// ==========================================
 
-  const bodyY = nextY + 7;
+ doc.setFont("helvetica", "bold");
 
-  doc.text("Respected Sir/Madam,", 14, bodyY);
-  
-  doc.text(
-    "With reference to the above subject, kindly find enclosed our transport bill.",
-    14,
-    bodyY + 7
-  );
-  
-  doc.text(
-    "Please release our payment at the earliest.",
-    14,
-    bodyY + 12
-  );
+ doc.text("Respected Sir/Madam,", 14, currentY);
 
-  // ==========================================
-  // VEHICLE
-  // ==========================================
+ doc.text(
+   "With reference to the above subject, kindly find enclosed our transport bill.",
+   14,
+   currentY + 7
+ );
 
-  doc.setFont("helvetica", "bold");
-  const vehicleY = bodyY + 6
-  doc.text(
-    `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
-    14,
-    vehicleY + 10
-  );
+ doc.text(
+   "Please release our payment at the earliest.",
+   14,
+   currentY + 12
+ );
 
-  const packageLabel = billData.billingType === "Daily" ? billData.selectedPackage : `${billData.billingType} Transport Package`;
-  const packageY = vehicleY + 10
-  doc.text(
-    `Package : ${packageLabel}`,
-    14,
-    packageY + 7
-  );
+// ==========================================
+// VEHICLE
+// ==========================================
 
-  const billingY = packageY + 13
-  doc.text(
-    `Billing Type : ${billData.billingType}`,
-    14,
-    billingY
-  );
-  const tableStartY = billingY + 2;
+ const vehicleY = currentY + 18;
 
+ doc.text(
+   `Vehicle : ${billData.carRegNo} (${billData.carModel})`,
+   14,
+   vehicleY
+ );
+
+ const packageLabel =
+   billData.billingType === "Daily"
+     ? billData.selectedPackage
+     : `${billData.billingType} Transport Package`;
+
+ doc.text(
+   `Package : ${packageLabel}`,
+   14,
+   vehicleY + 7
+ );
+
+ doc.text(
+   `Billing Type : ${billData.billingType}`,
+   14,
+   vehicleY + 14
+ );
+
+ const tableStartY = vehicleY + 18;
   // ==========================================
   // TABLE
   // ==========================================
-  doc.setFont("helvetica","bold")
 
   autoTable(doc, {
 
